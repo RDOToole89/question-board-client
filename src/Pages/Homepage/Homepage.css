@@ -1,0 +1,23 @@
+.Homepage {
+  margin: 0 auto;
+  padding: 4em 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.Homepage-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.questionBoard-wrapper {
+  padding: 2em;
+}
+
+.questionBoard-create-wrapper {
+  padding: 2em 12em;
+}
