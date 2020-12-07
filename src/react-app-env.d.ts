@@ -12,3 +12,8 @@ interface User {
   class: number;
   isTeacher: boolean;
 }
+
+interface QuestionBoard {
+  name: string;
+  description: string;
+}
