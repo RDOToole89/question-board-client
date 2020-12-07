@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { createNewBoard, fetchAllBoards } from "../../store/boards/actions";
 import { selectAllBoards } from "../../store/boards/selectors";
 import "./Homepage.css";
