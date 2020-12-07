@@ -14,6 +14,7 @@ interface User {
 }
 
 interface QuestionBoard {
+  id: number | null;
   name: string;
   description: string;
 }
