@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAllBoards } from "../../store/boards/actions";
+import { createNewBoard, fetchAllBoards } from "../../store/boards/actions";
 import { selectAllBoards } from "../../store/boards/selectors";
 import "./Homepage.css";
 
@@ -24,7 +24,7 @@ export default function Homepage() {
 
   const handleCreateBoard = (e: any) => {
     e.preventDefault();
-    console.log("CLICK CLICK CREATE");
+    dispatch(createNewBoard({ ...newQuestionBoard }));
   };
 
   return (
@@ -39,9 +39,7 @@ export default function Homepage() {
                   <Card.Title>{board.name}</Card.Title>
                   {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
                   <Card.Text>{board.description}</Card.Text>
-                  <Link to={`/boards/${board.id}/`}>
-                    <Card.Link>Go to board</Card.Link>
-                  </Link>
+                  <Card.Link href={`/boards/${board.id}/`}>Go to board</Card.Link>
                 </Card.Body>
               </Card>
             );
@@ -60,21 +58,22 @@ export default function Homepage() {
                 className="questionBoard-form-input"
                 onChange={(e) => setNewQuestionBoard({ ...newQuestionBoard, name: e.target.value })}
                 aria-label="board name"
-                placeholder="group name..."
+                placeholder="new board name..."
               />
             </InputGroup>
             <InputGroup>
               <FormControl
-                className="questionBoard-form-input"
+                className="questionBoard-form-input mb-3"
                 onChange={(e) =>
                   setNewQuestionBoard({ ...newQuestionBoard, description: e.target.value })
                 }
                 as="textarea"
                 aria-label="description"
+                placeholder="write a short description..."
                 rows={4}
               />
             </InputGroup>
-            <Button variant="success" onClick={handleCreateBoard}>
+            <Button variant="danger" onClick={handleCreateBoard}>
               Create Board
             </Button>
           </Form>

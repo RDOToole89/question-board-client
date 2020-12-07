@@ -17,6 +17,19 @@ export const fetchAllBoards = (): AppThunk => async (dispatch, getState) => {
 
     if (response) {
       dispatch(saveAllBoards(response.data));
+      console.log(response);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createNewBoard = (board: QuestionBoard): AppThunk => async (dispatch, getState) => {
+  try {
+    const response = await Axios.post(`${apiUrl}/boards`, { ...board });
+
+    if (response) {
+      dispatch(fetchAllBoards());
     }
   } catch (e) {
     console.log(e);
