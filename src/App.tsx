@@ -12,10 +12,10 @@ import { getQueue } from "./store/questions/actions";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log("in the useEffect");
     dispatch(getQueue());
-  });
+  }, [dispatch]);
   return (
     <div className="App">
       <AppNavbar />

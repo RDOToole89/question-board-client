@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { apiUrl } from "../../config/constants";
+import { getQueue } from "../questions/actions";
 import { AppThunk } from "../types";
 
 export const SAVE_ALL_BOARDS = "SAVE_ALL_BOARDS";
@@ -75,6 +76,7 @@ export const incrementUpvote = (questionId: number): AppThunk => async (
 
     if (response) {
       dispatch(fetchSingleBoard(1));
+      dispatch(getQueue());
     }
   } catch (e) {
     console.log(e);

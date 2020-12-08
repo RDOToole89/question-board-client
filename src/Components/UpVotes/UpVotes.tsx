@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { incrementUpvote } from "../../store/boards/actions";
+
 import "./UpVotes.css";
 
 interface UpVoteProps {

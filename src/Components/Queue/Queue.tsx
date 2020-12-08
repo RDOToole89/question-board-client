@@ -5,8 +5,8 @@ import "./style.css";
 import { selectShowSidebar } from "../../store/appState/selectors";
 import { Button, Card } from "react-bootstrap";
 import { toggleSidebar } from "../../store/appState/actions";
-import ArrowDropUpOutlinedIcon from "@material-ui/icons/ArrowDropUpOutlined";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import UpVotes from "../UpVotes/UpVotes";
 
 interface propsButton {
   text: string;
@@ -49,11 +49,10 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
 
         <Card.Link href="#">See question</Card.Link>
         <Button>Help</Button>
-        <Button>
-          <ArrowDropUpOutlinedIcon /> {`(${upVotes})`}
-        </Button>
+
+        <UpVotes upVotes={upVotes} messageId={id} />
+
         <Button variant="success" onClick={() => handleResolvedClick(id)}>
-          {" "}
           {<CheckCircleOutlineOutlinedIcon />}
         </Button>
       </Card.Body>
