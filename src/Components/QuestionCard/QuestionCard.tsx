@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Badge, Button, Card } from "react-bootstrap";
 import TagBox from "../TagBox/TagBox";
 import UpVotes from "../UpVotes/UpVotes";
 import "./QuestionCard.css";
@@ -13,19 +13,62 @@ interface cardProps {
   messageId: number;
   tags: [];
   createdAt: string;
-  author: { firstName: string; lastName: string };
+  author: { firstName: string; lastName: string; classNo: number };
 }
 
 function QuestionCard(props: cardProps) {
   const { title, body, resolved, upVotes, tags, author, messageId, createdAt } = props;
+
+  const [openMessages, setOpenMessages] = useState([]);
+
+  const openMessageToggle = (messageId: number) => {
+    // @ts-ignore
+    if (openMessages.includes(messageId)) {
+      // @ts-ignore
+      const updatedMessages = openMessages.filter((x) => x.id === messageId);
+      setOpenMessages([...updatedMessages]);
+    } else {
+      // @ts-ignore
+      setOpenMessages([...openMessages, messageId]);
+    }
+  };
 
   return (
     <Card className="mb-4 mr-4" style={{ width: "30rem" }}>
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className="mb-2">{`Author: ${author.firstName} ${author.lastName}`}</Card.Subtitle>
-        <Card.Text className="mb-4">{`${body.slice(0, 100)}...`}</Card.Text>
+        <Card.Subtitle className="mb-2">{`${author.firstName} ${author.lastName} (${author.classNo})`}</Card.Subtitle>
+
+        {
+          // @ts-ignore
+          !openMessages.includes(messageId) ? (
+            <div>
+              <Card.Text className="mb-2">{`${body.slice(0, 100)}...`}</Card.Text>
+              <Badge
+                variant="light"
+                className="mt-0"
+                style={{ cursor: "pointer" }}
+                onClick={() => openMessageToggle(messageId)}
+              >
+                Read more...
+              </Badge>
+            </div>
+          ) : (
+            <div>
+              <Card.Text className="mb-2">{body}</Card.Text>
+              <Badge
+                variant="light"
+                className="mt-0"
+                style={{ cursor: "pointer" }}
+                onClick={() => openMessageToggle(messageId)}
+              >
+                Close
+              </Badge>
+            </div>
+          )
+        }
+
         <TagBox tags={tags} />
         {resolved ? (
           <div className="QuestionCard-pending">
