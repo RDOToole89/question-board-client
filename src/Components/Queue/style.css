@@ -1,0 +1,7 @@
+.sidebar {
+  background-color: red;
+  width: 25em;
+  height: 100vh;
+  margin-left: auto;
+  order: 100;
+}
