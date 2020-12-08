@@ -7,3 +7,7 @@
 .QuestionCard-icon {
   color: lightgreen;
 }
+
+.screenshot {
+  cursor: pointer;
+}

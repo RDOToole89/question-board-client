@@ -20,6 +20,7 @@ function QuestionCard(props: cardProps) {
   const { title, body, resolved, upVotes, tags, author, messageId, createdAt } = props;
 
   const [openMessages, setOpenMessages] = useState([]);
+  const [screenshotActive, setScreenshotActive] = useState(false);
 
   const openMessageToggle = (messageId: number) => {
     // @ts-ignore
@@ -31,6 +32,11 @@ function QuestionCard(props: cardProps) {
       // @ts-ignore
       setOpenMessages([...openMessages, messageId]);
     }
+  };
+
+  const openScreenshot = () => {
+    console.log("OPEN SCREENSHOT");
+    setScreenshotActive(!screenshotActive);
   };
 
   return (
@@ -84,6 +90,18 @@ function QuestionCard(props: cardProps) {
         <Card.Text>{`${moment(createdAt).calendar()} - ${moment(createdAt)
           .startOf("hour")
           .fromNow()}  `}</Card.Text>
+        <div onClick={openScreenshot} className="screenshot">
+          <i className="las la-image"></i> Screenshot
+        </div>
+        {screenshotActive ? (
+          <div>
+            <img
+              style={{ width: "12em" }}
+              src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8Y29kZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              alt="screenshot"
+            />
+          </div>
+        ) : null}
         <UpVotes messageId={messageId} upVotes={upVotes} />
         <Button variant="primary">Go to question</Button>
       </Card.Body>
