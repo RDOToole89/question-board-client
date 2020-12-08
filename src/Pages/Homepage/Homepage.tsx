@@ -14,9 +14,6 @@ export default function Homepage() {
     description: "",
   });
 
-  console.log("NEWBOARD", newQuestionBoard);
-  console.log("BOARDS", boards);
-
   useEffect(() => {
     dispatch(fetchAllBoards());
   }, [dispatch]);
@@ -33,7 +30,7 @@ export default function Homepage() {
         <div className="questionBoard-wrapper">
           {boards.map((board: QuestionBoard) => {
             return (
-              <Card className="mb-4" key={board.id} style={{ width: "18rem" }}>
+              <Card className="questionBoard-card mb-4" key={board.id} style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>{board.name}</Card.Title>
                   {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}

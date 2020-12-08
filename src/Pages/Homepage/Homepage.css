@@ -15,9 +15,17 @@
 }
 
 .questionBoard-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 60%;
   padding: 2em;
 }
 
 .questionBoard-create-wrapper {
-  padding: 2em 12em;
+  padding: 2em 2em;
+}
+
+.questionBoard-card {
+  margin-left: 2em;
 }
