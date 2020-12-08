@@ -25,32 +25,56 @@ export const fetchAllBoards = (): AppThunk => async (dispatch, getState) => {
 
     if (response) {
       dispatch(saveAllBoards(response.data));
-      console.log(response);
+      // console.log(response);
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getState) => {
+export const fetchSingleBoard = (id: number): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     const response = await Axios.get(`${apiUrl}/boards/${id}`);
 
     if (response) {
-      dispatch(saveSingleBoard(response.data));
-      console.log(response);
+      dispatch(saveSingleBoard({ ...response.data }));
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const createNewBoard = (board: QuestionBoard): AppThunk => async (dispatch, getState) => {
+export const createNewBoard = (board: QuestionBoard): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     const response = await Axios.post(`${apiUrl}/boards`, { ...board });
 
     if (response) {
       dispatch(fetchAllBoards());
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const incrementUpvote = (questionId: number): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const response = await Axios.put(
+      `${apiUrl}/questions/upvote/${questionId}`
+    );
+
+    console.log(response);
+
+    if (response) {
+      dispatch(fetchSingleBoard(1));
     }
   } catch (e) {
     console.log(e);

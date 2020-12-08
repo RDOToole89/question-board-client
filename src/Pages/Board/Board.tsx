@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import QuestionCard from "../../Components/QuestionCard/QuestionCard";
 import { fetchSingleBoard } from "../../store/boards/actions";
-import { selectSingleBoard } from "../../store/boards/selectors";
+import { selectQuestions, selectSingleBoard } from "../../store/boards/selectors";
 import "./Board.css";
 
 function Board() {
@@ -12,23 +13,43 @@ function Board() {
   const id = params.id;
   const dispatch = useDispatch();
   const board = useSelector(selectSingleBoard);
-
-  console.log(params);
+  const questions = useSelector(selectQuestions);
 
   useEffect(() => {
     dispatch(fetchSingleBoard(id));
   }, [dispatch, id]);
 
-  console.log("BOARD", board);
+  console.log(board);
+  console.log(questions);
 
   return (
-    <div className="questionBoard">
-      <h1>{board.name}</h1>
+    <div className="QuestionBoard">
+      <div className="QuestionBoard-title-wrapper">
+        <h1>{board.name}</h1>
+        <p>{board.description}</p>
+      </div>
       <Container>
         <div className="FORM">
-          <h2>Form goes here!</h2>
+          <h2 className="text-center">Form goes here!</h2>
         </div>
-        <div className="QuestionCard-wrapper"></div>
+        <div className="QuestionCard-wrapper">
+          {questions?.map((x: Question) => {
+            return (
+              // @ts-ignore
+              <QuestionCard
+                key={x.id}
+                messageId={x.id}
+                title={x.title}
+                body={x.body}
+                resolved={x.resolved}
+                upVotes={x.upVotes}
+                tags={x.tags}
+                // @ts-ignore
+                author={x.author}
+              />
+            );
+          })}
+        </div>
       </Container>
     </div>
   );
