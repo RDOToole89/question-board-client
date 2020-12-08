@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Badge, Button, Card } from "react-bootstrap";
+import { Badge, Card } from "react-bootstrap";
 import TagBox from "../TagBox/TagBox";
 import UpVotes from "../UpVotes/UpVotes";
 import "./QuestionCard.css";

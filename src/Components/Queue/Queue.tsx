@@ -63,7 +63,7 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
 
 export default function Queue() {
   const queue = useSelector(selectQueue);
-  //const dispatch = useDispatch();
+  const sortedQueue = queue.sort((a, b) => a.createdAt - b.createdAt);
   const showSidebar = useSelector(selectShowSidebar);
 
   if (!showSidebar) {
@@ -72,7 +72,7 @@ export default function Queue() {
   return (
     <div className="sidebar">
       <ToggleSidebarButton text={">"} />
-      {queue.map((question) => (
+      {sortedQueue.map((question) => (
         <PendingQuestion
           question={question}
           authorInfo={question.author}
