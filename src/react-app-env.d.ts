@@ -9,7 +9,7 @@ interface User {
   lastName: string;
   email: string;
   password: string;
-  class: number;
+  classNo: number;
   isTeacher: boolean;
 }
 

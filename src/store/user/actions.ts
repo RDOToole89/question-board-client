@@ -29,39 +29,39 @@ export const logOut = () => {
   return { type: LOG_OUT };
 };
 
-// export const signUp = ({
-//   firstName,
-//   lastName,
-//   email,
-//   password,
-//   language,
-//   gender,
-// }: User): AppThunk => {
-//   return async (dispatch, getState) => {
-//     dispatch(appLoading());
-//     try {
-//       const response = await axios.post(`${apiUrl}/signup`, {
-//         firstName,
-//         lastName,
-//         email,
-//         password,
-//         language,
-//         gender,
-//       });
-
-//       dispatch(loginSuccess(response.data));
-//       dispatch(showMessageWithTimeout("success", true, "account created"));
-//       dispatch(appDoneLoading());
-//     } catch (error) {
-//       if (error.response) {
-//         dispatch(setMessage("danger", true, error.response.data.message));
-//       } else {
-//         dispatch(setMessage("danger", true, error.message));
-//       }
-//       dispatch(appDoneLoading());
-//     }
-//   };
-// };
+export const signUp = ({
+  firstName,
+  lastName,
+  email,
+  password,
+  classNo,
+  isTeacher,
+}: User): AppThunk => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const response = await axios.post(`${apiUrl}/signup`, {
+        firstName,
+        lastName,
+        email,
+        password,
+        classNo,
+        isTeacher,
+      });
+      console.log("response data", response.data);
+      dispatch(loginSuccess(response.data));
+      dispatch(showMessageWithTimeout("success", true, "account created"));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
 
 export const login = (email: string, password: string): AppThunk => {
   return async (dispatch, getState) => {

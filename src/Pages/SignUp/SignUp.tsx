@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-//import { signUp } from "../../store/user/actions";
 import { selectToken, selectUserLanguage } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import { signUp } from "../../store/user/actions";
 
 export default function Login() {
   const [newUser, setNewUser] = useState<User>({
@@ -14,7 +14,7 @@ export default function Login() {
     lastName: "",
     email: "",
     password: "",
-    class: 0,
+    classNo: 0,
     isTeacher: false,
   });
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export default function Login() {
   function submitForm(event: any) {
     event.preventDefault();
     console.log("to do: dispatch sign up");
-    //dispatch(signUp(newUser));
+    dispatch(signUp(newUser));
   }
 
   return (
@@ -71,40 +71,36 @@ export default function Login() {
             required
           />
         </Form.Group>
+
+        <Form.Group controlId="formBasicFirstName">
+          <Form.Label>Class number</Form.Label>
+          <Form.Control
+            value={newUser.classNo || ""}
+            onChange={(event) =>
+              setNewUser({ ...newUser, classNo: parseInt(event.target.value) })
+            }
+            placeholder={"Enter your classNo"}
+            required
+          />
+        </Form.Group>
+
         <Form.Group controlId="formBasicLanguage">
-          <Form.Label>Class</Form.Label>
+          <Form.Label>Are you a teacher</Form.Label>
           <Form.Control
             as="select"
-            value={newUser.class}
+            value={newUser.classNo}
             onChange={(event) =>
               setNewUser({
                 ...newUser,
-                class: parseInt(event.target.value),
+                isTeacher: event.target.value === "true",
               })
             }
-            placeholder={"Your class"}
             required
           >
-            <option value="En-GB">English</option>
-            <option value="Fr-FR">Français</option>
+            <option value="false">No</option>
+            <option value="true">yes</option>
           </Form.Control>
         </Form.Group>
-
-        {/* <Form.Group controlId="formBasicGender">
-          <Form.Label>Are you a teacher?</Form.Label>
-          <Form.Control
-            as="select"
-            value={newUser.gender}
-            onChange={(event) =>
-              setNewUser({ ...newUser, : event.target.value })
-            }
-            required
-          >
-            <option value="male">{t_male}</option>
-            <option value="female">{t_female}</option>
-            <option value="other"> {t_other} </option>
-          </Form.Control>
-        </Form.Group> */}
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
