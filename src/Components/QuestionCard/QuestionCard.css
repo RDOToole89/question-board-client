@@ -1,0 +1,9 @@
+.QuestionCard-pending {
+  padding: 0.5em 0;
+  display: flex;
+  align-items: center;
+}
+
+.QuestionCard-icon {
+  color: lightgreen;
+}

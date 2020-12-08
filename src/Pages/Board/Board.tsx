@@ -35,13 +35,16 @@ function Board() {
         <div className="QuestionCard-wrapper">
           {questions?.map((x: Question) => {
             return (
+              // @ts-ignore
               <QuestionCard
-                // @ts-ignore
+                key={x.id}
                 title={x.title}
                 body={x.body}
                 resolved={x.resolved}
                 upVotes={x.upVotes}
                 tags={x.tags}
+                // @ts-ignore
+                author={x.author}
               />
             );
           })}

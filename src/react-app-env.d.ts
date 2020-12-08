@@ -29,4 +29,5 @@ interface Question {
   upVotes: number;
   solvedId: number | null;
   tags: [];
+  author: {};
 }
