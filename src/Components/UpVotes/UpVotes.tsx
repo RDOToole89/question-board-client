@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { incrementUpvote } from "../../store/boards/actions";
+import "./UpVotes.css";
 
 interface UpVoteProps {
   upVotes: number;
@@ -16,9 +17,9 @@ function UpVotes(props: UpVoteProps) {
   };
 
   return (
-    <div className="UpVotes">
+    <div className="UpVotes mb-3">
       <div>
-        <i onClick={increment} className="las la-thumbs-up">
+        <i onClick={increment} className="upvote-icon las la-thumbs-up">
           {upVotes}
         </i>
       </div>

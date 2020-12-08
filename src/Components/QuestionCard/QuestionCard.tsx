@@ -3,6 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import TagBox from "../TagBox/TagBox";
 import UpVotes from "../UpVotes/UpVotes";
 import "./QuestionCard.css";
+import moment from "moment";
 
 interface cardProps {
   title: string;
@@ -11,14 +12,15 @@ interface cardProps {
   upVotes: number;
   messageId: number;
   tags: [];
+  createdAt: string;
   author: { firstName: string; lastName: string };
 }
 
 function QuestionCard(props: cardProps) {
-  const { title, body, resolved, upVotes, tags, author, messageId } = props;
+  const { title, body, resolved, upVotes, tags, author, messageId, createdAt } = props;
 
   return (
-    <Card className="mb-4" style={{ width: "30rem" }}>
+    <Card className="mb-4 mr-4" style={{ width: "30rem" }}>
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
         <Card.Title>{title}</Card.Title>
@@ -36,6 +38,9 @@ function QuestionCard(props: cardProps) {
             <i className="QuestionCard-icon text-danger las la-times-circle la-2x"></i>
           </div>
         )}
+        <Card.Text>{`${moment(createdAt).calendar()} - ${moment(createdAt)
+          .startOf("hour")
+          .fromNow()}  `}</Card.Text>
         <UpVotes messageId={messageId} upVotes={upVotes} />
         <Button variant="primary">Go to question</Button>
       </Card.Body>
