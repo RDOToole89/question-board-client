@@ -7,6 +7,7 @@ import { Button, Card } from "react-bootstrap";
 import { toggleSidebar } from "../../store/appState/actions";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import UpVotes from "../UpVotes/UpVotes";
+import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
 
 interface propsButton {
   text: string;
@@ -47,7 +48,7 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
         <Card.Text>{title}</Card.Text>
 
-        <Card.Link href="#">See question</Card.Link>
+        <GoToQuestionButton />
         <Button>Help</Button>
 
         <UpVotes upVotes={upVotes} messageId={id} />
