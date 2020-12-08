@@ -28,18 +28,21 @@ interface PropsQuestion {
   authorInfo: User;
 }
 function PendingQuestion({ question, authorInfo }: PropsQuestion) {
+
   const { id, title, authorId, upVotes } = question;
   const { firstName, lastName, classNo } = authorInfo;
   const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
     // dispatch(updateQuestion())
   };
+
   return (
     <Card>
       <Card.Body>
         <Card.Title>{`${firstName} ${lastName} (${classNo})`}</Card.Title>
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
         <Card.Text>{title}</Card.Text>
+
         <Card.Link href="#">See question</Card.Link>
         <Button>Help</Button>
         <Button>
@@ -49,6 +52,7 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
           {" "}
           {<CheckCircleOutlineOutlinedIcon />}
         </Button>
+
       </Card.Body>
     </Card>
   );
