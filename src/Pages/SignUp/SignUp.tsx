@@ -10,6 +10,7 @@ import { signUp } from "../../store/user/actions";
 
 export default function Login() {
   const [newUser, setNewUser] = useState<User>({
+    id: 0,
     firstName: "",
     lastName: "",
     email: "",
@@ -29,7 +30,7 @@ export default function Login() {
 
   function submitForm(event: any) {
     event.preventDefault();
-    console.log("to do: dispatch sign up");
+
     dispatch(signUp(newUser));
   }
 
