@@ -8,6 +8,8 @@ import { toggleSidebar } from "../../store/appState/actions";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import UpVotes from "../UpVotes/UpVotes";
 import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
+import { updateQuestion } from "../../store/questions/actions";
+import { selectUserId } from "../../store/user/selectors";
 
 interface propsButton {
   text: string;
@@ -25,20 +27,20 @@ function ToggleSidebarButton({ text }: propsButton) {
   );
 }
 interface PropsQuestion {
-  question: Question;
-  authorInfo: User;
+  question: QuestionWithAuthorAndSolver;
 }
-function PendingQuestion({ question, authorInfo }: PropsQuestion) {
-  const {
-    id,
-    title,
-    //authorId,
-    upVotes,
-  } = question;
-  const { firstName, lastName, classNo } = authorInfo;
-  //const dispatch = useDispatch();
+function PendingQuestion({ question }: PropsQuestion) {
+  const { id, title, author, upVotes, solver } = question;
+  const { firstName, lastName, classNo } = author;
+
+  const userId = useSelector(selectUserId);
+  const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
     // dispatch(updateQuestion())
+  };
+  const helpClickHandler = (questionId: number, solverId: number | null) => {
+    console.log("solverId", solverId);
+    dispatch(updateQuestion(questionId, "solverId", solverId));
   };
 
   return (
@@ -47,15 +49,24 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
         <Card.Title>{`${firstName} ${lastName} (${classNo})`}</Card.Title>
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
         <Card.Text>{title}</Card.Text>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <GoToQuestionButton />
+          {solver ? (
+            <Button
+              disabled={solver.id !== userId}
+              variant="warning"
+              onClick={() => helpClickHandler(id, null)}
+            >{`${solver.firstName} to the rescue`}</Button>
+          ) : (
+            <Button onClick={() => helpClickHandler(id, userId)}>Help</Button>
+          )}
 
-        <GoToQuestionButton />
-        <Button>Help</Button>
+          <UpVotes upVotes={upVotes} messageId={id} />
 
-        <UpVotes upVotes={upVotes} messageId={id} />
-
-        <Button variant="success" onClick={() => handleResolvedClick(id)}>
-          {<CheckCircleOutlineOutlinedIcon />}
-        </Button>
+          <Button variant="success" onClick={() => handleResolvedClick(id)}>
+            {<CheckCircleOutlineOutlinedIcon />}
+          </Button>
+        </div>
       </Card.Body>
     </Card>
   );
@@ -75,7 +86,7 @@ export default function Queue() {
       {sortedQueue.map((question) => (
         <PendingQuestion
           question={question}
-          authorInfo={question.author}
+          //authorInfo={question.author}
           key={question.id}
         />
       ))}

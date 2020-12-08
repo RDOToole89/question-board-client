@@ -30,5 +30,8 @@ interface Question {
   solvedId: number | null;
   createdAt: string;
   tags: [];
-  author: {};
+}
+interface QuestionWithAuthorAndSolver extends Question {
+  author: User;
+  solver: User;
 }

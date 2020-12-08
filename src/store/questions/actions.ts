@@ -5,7 +5,7 @@ import { selectToken } from "../user/selectors";
 export const SET_QUEUE = "SET_QUEUE";
 
 export const getQueue = (): AppThunk => async (dispatch, getState) => {
-  const serverResponse = await Axios.get(`${apiUrl}/questions/queue`);
+  const serverResponse = await Axios.get(`${apiUrl}/questions/unresolved`);
   dispatch({
     type: SET_QUEUE,
     payload: serverResponse.data,
@@ -30,5 +30,6 @@ export const updateQuestion = (
       }
     );
     console.log(serverResponse);
+    dispatch(getQueue());
   };
 };
