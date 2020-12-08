@@ -10,3 +10,11 @@ export const getQueue = (): AppThunk => async (dispatch, getState) => {
     payload: serverResponse.data,
   });
 };
+
+export const updateQuestion = (
+  questionId: number,
+  key: string,
+  newValue: any
+): AppThunk => {
+  return async (dispatch, getState) => {};
+};
