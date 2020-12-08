@@ -1,18 +1,19 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
 
-function TagBox() {
-  const tags = [
-    { id: 1, tagName: "TAGTEST!" },
-    { id: 1, tagName: "TAGTEST!" },
-    { id: 1, tagName: "TAGTEST!" },
-  ];
+function TagBox(props: any) {
+  const { tags } = props;
+
+  interface Tag {
+    id: number;
+    tagname: string;
+  }
 
   return (
     <div className="tagbox mb-2">
-      {tags.map((x) => (
+      {tags.map((x: Tag) => (
         <Badge key={x.id} variant="success" className="m-1 tag">
-          {x.tagName}
+          {x.tagname}
         </Badge>
       ))}
     </div>
