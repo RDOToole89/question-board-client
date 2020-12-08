@@ -28,4 +28,5 @@ interface Question {
   resolved: boolean;
   upVotes: number;
   solvedId: number | null;
+  tags: [];
 }
