@@ -4,7 +4,9 @@
   align-items: center;
 }
 
-/* .QuestionCard-wrapper {
+.QuestionCard-wrapper {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-} */
+  width: 100%;
+}

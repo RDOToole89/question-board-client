@@ -44,6 +44,7 @@ function Board() {
                 resolved={x.resolved}
                 upVotes={x.upVotes}
                 tags={x.tags}
+                createdAt={x.createdAt}
                 // @ts-ignore
                 author={x.author}
               />
