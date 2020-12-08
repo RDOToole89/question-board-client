@@ -28,10 +28,14 @@ interface PropsQuestion {
   authorInfo: User;
 }
 function PendingQuestion({ question, authorInfo }: PropsQuestion) {
-
-  const { id, title, authorId, upVotes } = question;
+  const {
+    id,
+    title,
+    //authorId,
+    upVotes,
+  } = question;
   const { firstName, lastName, classNo } = authorInfo;
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
     // dispatch(updateQuestion())
   };
@@ -52,7 +56,6 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
           {" "}
           {<CheckCircleOutlineOutlinedIcon />}
         </Button>
-
       </Card.Body>
     </Card>
   );
@@ -60,7 +63,7 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
 
 export default function Queue() {
   const queue = useSelector(selectQueue);
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const showSidebar = useSelector(selectShowSidebar);
 
   if (!showSidebar) {
