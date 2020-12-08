@@ -41,6 +41,7 @@ function Board() {
                 body={x.body}
                 resolved={x.resolved}
                 upVotes={x.upVotes}
+                tags={x.tags}
               />
             );
           })}
