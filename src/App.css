@@ -28,3 +28,11 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+.app-body {
+  display: flex;
+}
