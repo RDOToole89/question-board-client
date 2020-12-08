@@ -19,6 +19,7 @@ interface QuestionBoard {
   description: string;
 }
 
+
 interface Question {
   id: number;
   authorId: number;
@@ -27,4 +28,3 @@ interface Question {
   resolved: boolean;
   upVotes: number;
   solvedId: number | null;
-}

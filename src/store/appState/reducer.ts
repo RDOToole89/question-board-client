@@ -3,12 +3,14 @@ import {
   APP_DONE_LOADING,
   SET_MESSAGE,
   CLEAR_MESSAGE,
+  TOGGLE_SIDEBAR,
 } from "./actions";
 
 const initialState = {
   loading: false,
   message: null,
   today: new Date(),
+  showSidebar: false,
 };
 // eslint-disable-next-line
 export default (state = initialState, action: Action) => {
@@ -24,6 +26,8 @@ export default (state = initialState, action: Action) => {
 
     case CLEAR_MESSAGE:
       return { ...state, message: null };
+    case TOGGLE_SIDEBAR:
+      return { ...state, showSidebar: !state.showSidebar };
 
     default:
       return state;

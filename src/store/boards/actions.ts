@@ -25,12 +25,13 @@ export const fetchAllBoards = (): AppThunk => async (dispatch, getState) => {
 
     if (response) {
       dispatch(saveAllBoards(response.data));
-      console.log(response);
+      // console.log(response);
     }
   } catch (e) {
     console.log(e);
   }
 };
+
 
 export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getState) => {
   try {
