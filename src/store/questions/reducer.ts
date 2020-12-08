@@ -7,7 +7,7 @@ interface QuestionState {
 const initialState: QuestionState = {
   queue: [],
 };
-
+// eslint-disable-next-line
 export default (state = initialState, { type, payload }: Action) => {
   switch (type) {
     case SET_QUEUE:

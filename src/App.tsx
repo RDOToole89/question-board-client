@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     console.log("in the useEffect");
     dispatch(getQueue());
-  }, []);
+  });
   return (
     <div className="App">
       <AppNavbar />
