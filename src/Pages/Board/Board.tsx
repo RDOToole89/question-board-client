@@ -38,6 +38,7 @@ function Board() {
               // @ts-ignore
               <QuestionCard
                 key={x.id}
+                messageId={x.id}
                 title={x.title}
                 body={x.body}
                 resolved={x.resolved}

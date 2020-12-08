@@ -9,12 +9,13 @@ interface cardProps {
   body: string;
   resolved: boolean;
   upVotes: number;
+  messageId: number;
   tags: [];
   author: { firstName: string; lastName: string };
 }
 
 function QuestionCard(props: cardProps) {
-  const { title, body, resolved, upVotes, tags, author } = props;
+  const { title, body, resolved, upVotes, tags, author, messageId } = props;
 
   return (
     <Card className="mb-4" style={{ width: "30rem" }}>
@@ -35,7 +36,7 @@ function QuestionCard(props: cardProps) {
             <i className="QuestionCard-icon text-danger las la-times-circle la-2x"></i>
           </div>
         )}
-        <UpVotes upVotes={upVotes} />
+        <UpVotes messageId={messageId} upVotes={upVotes} />
         <Button variant="primary">Go to question</Button>
       </Card.Body>
     </Card>

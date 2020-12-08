@@ -32,7 +32,6 @@ export const fetchAllBoards = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-
 export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getState) => {
   try {
     const response = await Axios.get(`${apiUrl}/boards/${id}`);
@@ -51,6 +50,20 @@ export const createNewBoard = (board: QuestionBoard): AppThunk => async (dispatc
 
     if (response) {
       dispatch(fetchAllBoards());
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const incrementUpvote = (questionId: number): AppThunk => async (dispatch, getState) => {
+  try {
+    const response = await Axios.put(`${apiUrl}/questions/${questionId}`);
+
+    console.log(response);
+
+    if (response) {
+      dispatch(fetchSingleBoard(1));
     }
   } catch (e) {
     console.log(e);

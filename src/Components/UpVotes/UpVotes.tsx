@@ -1,10 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { incrementUpvote } from "../../store/boards/actions";
 
-function UpVotes(props: any) {
-  const { upVotes } = props;
+interface UpVoteProps {
+  upVotes: number;
+  messageId: number;
+}
+
+function UpVotes(props: UpVoteProps) {
+  const dispatch = useDispatch();
+  const { upVotes, messageId } = props;
 
   const increment = () => {
-    console.log("+");
+    dispatch(incrementUpvote(messageId));
   };
 
   return (
