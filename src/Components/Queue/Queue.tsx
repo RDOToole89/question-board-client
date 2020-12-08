@@ -9,7 +9,7 @@ import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlin
 import UpVotes from "../UpVotes/UpVotes";
 import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
 import { updateQuestion } from "../../store/questions/actions";
-import { selectUserId } from "../../store/user/selectors";
+import { selectUser, selectUserId } from "../../store/user/selectors";
 
 interface propsButton {
   text: string;
@@ -34,12 +34,12 @@ function PendingQuestion({ question }: PropsQuestion) {
   const { firstName, lastName, classNo } = author;
 
   const userId = useSelector(selectUserId);
+  const isUserATeacher = useSelector(selectUser).isTeacher;
   const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
-    // dispatch(updateQuestion())
+    dispatch(updateQuestion(questionId, "resolved", true));
   };
   const helpClickHandler = (questionId: number, solverId: number | null) => {
-    console.log("solverId", solverId);
     dispatch(updateQuestion(questionId, "solverId", solverId));
   };
 
@@ -63,7 +63,11 @@ function PendingQuestion({ question }: PropsQuestion) {
 
           <UpVotes upVotes={upVotes} messageId={id} />
 
-          <Button variant="success" onClick={() => handleResolvedClick(id)}>
+          <Button
+            disabled={!(userId === author.id || isUserATeacher)}
+            variant="success"
+            onClick={() => handleResolvedClick(id)}
+          >
             {<CheckCircleOutlineOutlinedIcon />}
           </Button>
         </div>
