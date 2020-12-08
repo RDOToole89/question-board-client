@@ -34,7 +34,15 @@ function Board() {
         </div>
         <div className="QuestionCard-wrapper">
           {questions?.map((x: Question) => {
-            return <QuestionCard />;
+            return (
+              <QuestionCard
+                // @ts-ignore
+                title={x.title}
+                body={x.body}
+                resolved={x.resolved}
+                upVotes={x.upVotes}
+              />
+            );
           })}
         </div>
       </Container>
