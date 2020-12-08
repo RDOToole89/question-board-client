@@ -37,8 +37,7 @@ export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getSt
     const response = await Axios.get(`${apiUrl}/boards/${id}`);
 
     if (response) {
-      dispatch(saveSingleBoard(response.data));
-      console.log(response);
+      dispatch(saveSingleBoard({ ...response.data[0] }));
     }
   } catch (e) {
     console.log(e);

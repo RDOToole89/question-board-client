@@ -5,3 +5,7 @@ export const selectAllBoards = (reduxState: any) => {
 export const selectSingleBoard = (reduxState: any) => {
   return reduxState.questionBoards.single;
 };
+
+export const selectQuestions = (reduxState: any) => {
+  return reduxState.questionBoards.single.questions;
+};
