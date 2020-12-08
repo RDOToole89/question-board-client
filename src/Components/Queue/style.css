@@ -1,7 +1,12 @@
 .sidebar {
-  background-color: red;
-  width: 25em;
+  width: 30em;
   height: 100vh;
+  margin-left: auto;
+  order: 100;
+  border: 2px solid gray;
+}
+.sidebar-button {
+  height: 4em;
   margin-left: auto;
   order: 100;
 }
