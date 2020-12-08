@@ -18,12 +18,13 @@ interface QuestionBoard {
   name: string;
   description: string;
 }
+
+
 interface Question {
+  id: number;
+  authorId: number;
   title: string;
   body: string;
-  authorId: number;
-  questionBoardId: number;
-  upVotes: number;
   resolved: boolean;
-  solverId: number;
-}
+  upVotes: number;
+  solvedId: number | null;

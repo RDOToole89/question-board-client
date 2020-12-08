@@ -3,6 +3,14 @@ import { apiUrl } from "../../config/constants";
 import { AppThunk } from "../types";
 
 export const SAVE_ALL_BOARDS = "SAVE_ALL_BOARDS";
+export const SAVE_SINGLE_BOARD = "SAVE_SINGLE_BOARD";
+
+export const saveSingleBoard = (board: {}) => {
+  return {
+    type: SAVE_SINGLE_BOARD,
+    payload: { ...board },
+  };
+};
 
 export const saveAllBoards = (boards: []) => {
   return {
@@ -24,10 +32,20 @@ export const fetchAllBoards = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-export const createNewBoard = (board: QuestionBoard): AppThunk => async (
-  dispatch,
-  getState
-) => {
+
+export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getState) => {
+  try {
+    const response = await Axios.get(`${apiUrl}/boards/${id}`);
+
+    if (response) {
+      dispatch(saveSingleBoard({ ...response.data[0] }));
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createNewBoard = (board: QuestionBoard): AppThunk => async (dispatch, getState) => {
   try {
     const response = await Axios.post(`${apiUrl}/boards`, { ...board });
 

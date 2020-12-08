@@ -1,0 +1,10 @@
+.QuestionBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .QuestionCard-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+} */
