@@ -3,7 +3,7 @@ import { Button, Nav, NavDropdown } from "react-bootstrap";
 import { logOut } from "../../store/user/actions";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectUser, selectUserLanguage } from "../../store/user/selectors";
+import { selectUser } from "../../store/user/selectors";
 import { useHistory } from "react-router-dom";
 
 export function LoggedInLinks() {

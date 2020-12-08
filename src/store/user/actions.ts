@@ -48,7 +48,7 @@ export const signUp = ({
         classNo,
         isTeacher,
       });
-      console.log("response data", response.data);
+
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", true, "account created"));
       dispatch(appDoneLoading());
