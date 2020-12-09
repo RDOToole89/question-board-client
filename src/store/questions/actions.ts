@@ -1,6 +1,8 @@
+
 import Axios from 'axios';
 import { apiUrl } from '../../config/constants';
 import { AppThunk } from '../types';
+import { fetchSingleBoard } from "../boards/actions";
 import { selectToken } from '../user/selectors';
 export const SET_QUEUE = 'SET_QUEUE';
 export const SAVE_QUESTION = 'SAVE_QUESTION';
@@ -49,4 +51,38 @@ export const updateQuestion = (questionId: number, key: string, newValue: any): 
 		console.log(serverResponse);
 		dispatch(getQueue());
 	};
+};
+
+export const uploadNewQuestion = (
+  title: string,
+  body: string,
+  questionBoardId: number,
+  base64EncodedImage: string,
+  tags: string[]
+): AppThunk => {
+  console.log("in upload func");
+  return async (dispatch, getState) => {
+    console.log("in the thunk");
+    try {
+      const token = selectToken(getState());
+      const answer = await Axios.post(
+        `${apiUrl}/questions`,
+        {
+          image: base64EncodedImage,
+          title,
+          questionBoardId,
+          body,
+          tags,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      dispatch(getQueue());
+      dispatch(fetchSingleBoard(questionBoardId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };

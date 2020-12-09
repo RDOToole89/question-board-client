@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
-import { Container } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import QuestionCard from "../../Components/QuestionCard/QuestionCard";
+import QuestionForm from "../../Components/QuestionForm/QuestionForm";
 import { fetchSingleBoard } from "../../store/boards/actions";
-import { selectQuestions, selectSingleBoard } from "../../store/boards/selectors";
+import {
+  selectQuestions,
+  selectSingleBoard,
+} from "../../store/boards/selectors";
 import "./Board.css";
 
 function Board() {
@@ -14,6 +18,7 @@ function Board() {
   const dispatch = useDispatch();
   const board = useSelector(selectSingleBoard);
   const questions = useSelector(selectQuestions);
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchSingleBoard(id));
@@ -30,7 +35,11 @@ function Board() {
       </div>
       <Container>
         <div className="FORM">
-          <h2 className="text-center">Form goes here!</h2>
+          <Button variant="primary" onClick={() => setModalShow(true)}>
+            Post a new question
+          </Button>
+
+          <QuestionForm show={modalShow} onHide={() => setModalShow(false)} />
         </div>
         <div className="QuestionCard-wrapper">
           {questions?.map((x: Question) => {
