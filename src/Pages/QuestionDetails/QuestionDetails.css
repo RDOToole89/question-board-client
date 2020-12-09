@@ -6,8 +6,9 @@
 
 .question-wrapper {
 	display: flex;
+	justify-content: center;
 	padding-top: 6em;
-	width: 60%;
+	width: 80%;
 }
 
 .question-screenshot {

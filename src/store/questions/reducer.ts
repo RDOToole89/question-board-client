@@ -7,7 +7,7 @@ interface QuestionState {
 
 const initialState: QuestionState = {
 	queue: [],
-	single: { author: {}, comments: [] }
+	single: { author: {}, comments: [], tags: [] }
 };
 // eslint-disable-next-line
 export default (state = initialState, { type, payload }: Action) => {
