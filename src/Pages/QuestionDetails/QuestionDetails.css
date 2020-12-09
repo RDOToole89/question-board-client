@@ -1,23 +1,31 @@
 .QuestionDetails {
-	width: 100%;
-	display: flex;
-	justify-content: center;
+  width: 100%;
+  display: flex;
 }
 
 .question-wrapper {
-	display: flex;
-	padding-top: 6em;
-	width: 60%;
+  padding-left: 6em;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 6em;
+  width: 80%;
 }
 
 .question-screenshot {
-	width: 40%;
+  width: 40%;
 }
 
 .question-content {
-	width: 60%;
+  width: 60%;
 }
 
 .question-body {
-	width: 80%;
+  width: 80%;
+}
+
+.comment-section {
+  padding-left: 6em;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
 }
