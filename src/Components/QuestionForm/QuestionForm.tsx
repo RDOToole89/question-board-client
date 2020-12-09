@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Badge, Button, Col, Form, FormControl, Modal } from "react-bootstrap";
+import { Badge, Button, Form, FormControl, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { uploadNewQuestion } from "../../store/questions/actions";
 import { useDispatch } from "react-redux";
-// import { selectUserId } from "../../store/user/selectors";
-// import { useSelector } from "react-redux";
 
 interface NewQuestion {
   title: string;
@@ -48,7 +46,6 @@ export default function QuestionForm(props: any) {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const reader = new FileReader();
     const { title, body, questionBoardId, tags } = newQuestion;
     dispatch(
       uploadNewQuestion(title, body, questionBoardId, previewSource, tags)
