@@ -5,8 +5,11 @@ import "./style.css";
 import { selectShowSidebar } from "../../store/appState/selectors";
 import { Button, Card } from "react-bootstrap";
 import { toggleSidebar } from "../../store/appState/actions";
-import ArrowDropUpOutlinedIcon from "@material-ui/icons/ArrowDropUpOutlined";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import UpVotes from "../UpVotes/UpVotes";
+import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
+import { updateQuestion } from "../../store/questions/actions";
+import { selectUser, selectUserId } from "../../store/user/selectors";
 
 interface propsButton {
   text: string;
@@ -24,16 +27,20 @@ function ToggleSidebarButton({ text }: propsButton) {
   );
 }
 interface PropsQuestion {
-  question: Question;
-  authorInfo: User;
+  question: QuestionWithAuthorAndSolver;
 }
-function PendingQuestion({ question, authorInfo }: PropsQuestion) {
+function PendingQuestion({ question }: PropsQuestion) {
+  const { id, title, author, upVotes, solver } = question;
+  const { firstName, lastName, classNo } = author;
 
-  const { id, title, authorId, upVotes } = question;
-  const { firstName, lastName, classNo } = authorInfo;
+  const userId = useSelector(selectUserId);
+  const isUserATeacher = useSelector(selectUser).isTeacher;
   const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
-    // dispatch(updateQuestion())
+    dispatch(updateQuestion(questionId, "resolved", true));
+  };
+  const helpClickHandler = (questionId: number, solverId: number | null) => {
+    dispatch(updateQuestion(questionId, "solverId", solverId));
   };
 
   return (
@@ -42,17 +49,28 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
         <Card.Title>{`${firstName} ${lastName} (${classNo})`}</Card.Title>
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
         <Card.Text>{title}</Card.Text>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <GoToQuestionButton />
+          {solver ? (
+            <Button
+              disabled={solver.id !== userId}
+              variant="warning"
+              onClick={() => helpClickHandler(id, null)}
+            >{`${solver.firstName} to the rescue`}</Button>
+          ) : (
+            <Button onClick={() => helpClickHandler(id, userId)}>Help</Button>
+          )}
 
-        <Card.Link href="#">See question</Card.Link>
-        <Button>Help</Button>
-        <Button>
-          <ArrowDropUpOutlinedIcon /> {`(${upVotes})`}
-        </Button>
-        <Button variant="success" onClick={() => handleResolvedClick(id)}>
-          {" "}
-          {<CheckCircleOutlineOutlinedIcon />}
-        </Button>
+          <UpVotes upVotes={upVotes} messageId={id} />
 
+          <Button
+            disabled={!(userId === author.id || isUserATeacher)}
+            variant="success"
+            onClick={() => handleResolvedClick(id)}
+          >
+            {<CheckCircleOutlineOutlinedIcon />}
+          </Button>
+        </div>
       </Card.Body>
     </Card>
   );
@@ -60,7 +78,7 @@ function PendingQuestion({ question, authorInfo }: PropsQuestion) {
 
 export default function Queue() {
   const queue = useSelector(selectQueue);
-  const dispatch = useDispatch();
+  const sortedQueue = queue.sort((a, b) => a.createdAt - b.createdAt);
   const showSidebar = useSelector(selectShowSidebar);
 
   if (!showSidebar) {
@@ -69,10 +87,10 @@ export default function Queue() {
   return (
     <div className="sidebar">
       <ToggleSidebarButton text={">"} />
-      {queue.map((question) => (
+      {sortedQueue.map((question) => (
         <PendingQuestion
           question={question}
-          authorInfo={question.author}
+          //authorInfo={question.author}
           key={question.id}
         />
       ))}

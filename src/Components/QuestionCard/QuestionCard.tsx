@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Badge, Button, Card } from "react-bootstrap";
+import { Badge, Card } from "react-bootstrap";
 import TagBox from "../TagBox/TagBox";
 import UpVotes from "../UpVotes/UpVotes";
 import "./QuestionCard.css";
 import moment from "moment";
+import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
 
 interface cardProps {
   title: string;
@@ -17,7 +18,16 @@ interface cardProps {
 }
 
 function QuestionCard(props: cardProps) {
-  const { title, body, resolved, upVotes, tags, author, messageId, createdAt } = props;
+  const {
+    title,
+    body,
+    resolved,
+    upVotes,
+    tags,
+    author,
+    messageId,
+    createdAt,
+  } = props;
 
   const [openMessages, setOpenMessages] = useState([]);
   const [screenshotActive, setScreenshotActive] = useState(false);
@@ -50,7 +60,10 @@ function QuestionCard(props: cardProps) {
           // @ts-ignore
           !openMessages.includes(messageId) ? (
             <div>
-              <Card.Text className="mb-2">{`${body.slice(0, 100)}...`}</Card.Text>
+              <Card.Text className="mb-2">{`${body.slice(
+                0,
+                100
+              )}...`}</Card.Text>
               <Badge
                 variant="light"
                 className="mt-0"
@@ -103,7 +116,7 @@ function QuestionCard(props: cardProps) {
           </div>
         ) : null}
         <UpVotes messageId={messageId} upVotes={upVotes} />
-        <Button variant="primary">Go to question</Button>
+        <GoToQuestionButton />
       </Card.Body>
     </Card>
   );
