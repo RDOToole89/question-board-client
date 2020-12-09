@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { createNewBoard, fetchAllBoards } from "../../store/boards/actions";
 import { selectAllBoards } from "../../store/boards/selectors";
 import "./Homepage.css";
@@ -35,7 +36,7 @@ export default function Homepage() {
                   <Card.Title>{board.name}</Card.Title>
                   {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
                   <Card.Text>{board.description}</Card.Text>
-                  <Card.Link href={`/boards/${board.id}/`}>Go to board</Card.Link>
+                  <Link to={`/boards/${board.id}/`}>Go to board</Link>
                 </Card.Body>
               </Card>
             );

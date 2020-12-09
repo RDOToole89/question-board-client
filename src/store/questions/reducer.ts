@@ -1,19 +1,28 @@
-import { SET_QUEUE } from "./actions";
+import { SAVE_QUESTION, SET_QUEUE } from './actions';
 
 interface QuestionState {
-  queue: Question[];
+	queue: Question[];
+	single: {};
 }
 
 const initialState: QuestionState = {
-  queue: [],
+	queue: [],
+	single: { author: {}, comments: [] }
 };
 // eslint-disable-next-line
 export default (state = initialState, { type, payload }: Action) => {
-  switch (type) {
-    case SET_QUEUE:
-      return { ...state, queue: [...payload] };
+	switch (type) {
+		case SET_QUEUE:
+			return { ...state, queue: [ ...payload ] };
 
-    default:
-      return state;
-  }
+		case SAVE_QUESTION: {
+			return {
+				...state,
+				single: { ...payload }
+			};
+		}
+
+		default:
+			return state;
+	}
 };

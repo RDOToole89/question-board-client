@@ -50,7 +50,7 @@ function PendingQuestion({ question }: PropsQuestion) {
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
         <Card.Text>{title}</Card.Text>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <GoToQuestionButton />
+          <GoToQuestionButton questionId={question.id} boardId={1} />
           {solver ? (
             <Button
               disabled={solver.id !== userId}

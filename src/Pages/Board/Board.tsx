@@ -56,6 +56,7 @@ function Board() {
                 createdAt={x.createdAt}
                 // @ts-ignore
                 author={x.author}
+                boardId={id}
               />
             );
           })}
