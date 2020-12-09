@@ -26,9 +26,11 @@ interface Question {
   title: string;
   body: string;
   resolved: boolean;
+  questionBoardId: number;
   upVotes: number;
-  solvedId: number | null;
+  solverId: number | null;
   createdAt: string;
+  screenshotURL?: string;
   tags: [];
 }
 interface QuestionWithAuthorAndSolver extends Question {

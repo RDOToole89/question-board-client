@@ -33,3 +33,37 @@ export const updateQuestion = (
     dispatch(getQueue());
   };
 };
+
+export const uploadNewQuestion = (
+  title: string,
+  body: string,
+  questionBoardId: number,
+  base64EncodedImage: string,
+  tags: string[]
+): AppThunk => {
+  console.log("in upload func");
+  return async (dispatch, getState) => {
+    console.log("in the thunk");
+    try {
+      const token = selectToken(getState());
+      const answer = await Axios.post(
+        `${apiUrl}/questions`,
+        {
+          image: base64EncodedImage,
+          title,
+          questionBoardId,
+          body,
+          tags,
+        },
+        {
+          // headers: { "Content-type": "application/json" },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("uploadNewQuestion answer", answer);
+      dispatch(getQueue());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
