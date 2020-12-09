@@ -15,6 +15,7 @@ interface cardProps {
   tags: [];
   createdAt: string;
   author: { firstName: string; lastName: string; classNo: number };
+  boardId: number;
 }
 
 function QuestionCard(props: cardProps) {
@@ -27,6 +28,7 @@ function QuestionCard(props: cardProps) {
     author,
     messageId,
     createdAt,
+    boardId,
   } = props;
 
   const [openMessages, setOpenMessages] = useState([]);
@@ -116,7 +118,7 @@ function QuestionCard(props: cardProps) {
           </div>
         ) : null}
         <UpVotes messageId={messageId} upVotes={upVotes} />
-        <GoToQuestionButton />
+        <GoToQuestionButton questionId={messageId} boardId={boardId} />
       </Card.Body>
     </Card>
   );
