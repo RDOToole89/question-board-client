@@ -27,7 +27,7 @@ function App() {
   });
   return (
     <div className="App">
-      <AppNavbar />
+      <AppNavbar /> 
       <div className="app-body">
         <Queue />
         <Switch>
@@ -36,7 +36,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
         </Switch>
-      </div>
+      </div> 
     </div>
   );
 }
