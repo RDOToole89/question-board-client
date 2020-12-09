@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, FormControl, Modal } from "react-bootstrap";
+import { Badge, Button, Col, Form, FormControl, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { uploadNewQuestion } from "../../store/questions/actions";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ interface NewQuestion {
   body: string;
 
   questionBoardId: number;
-  tags: [];
+  tags: string[];
 }
 interface BoardParams {
   id?: string | undefined;
@@ -30,6 +30,7 @@ export default function QuestionForm(props: any) {
   });
   const [fileInputState, setFileInputState] = useState<any>("");
   const [previewSource, setPreviewSource] = useState<any>();
+  const [newTag, setNewTag] = useState<string>("");
   const handleFileUpload = (e: any) => {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -47,16 +48,14 @@ export default function QuestionForm(props: any) {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (previewSource) {
-      console.log("submiting");
-      const reader = new FileReader();
-      const { title, body, questionBoardId, tags } = newQuestion;
-      dispatch(
-        uploadNewQuestion(title, body, questionBoardId, previewSource, tags)
-      );
-    }
+    const reader = new FileReader();
+    const { title, body, questionBoardId, tags } = newQuestion;
+    dispatch(
+      uploadNewQuestion(title, body, questionBoardId, previewSource, tags)
+    );
+    props.onHide();
   };
-  console.log(newQuestion);
+
   return (
     <Modal
       {...props}
@@ -94,6 +93,40 @@ export default function QuestionForm(props: any) {
               }
             />
           </Form.Group>
+
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Form.Group style={{ marginRight: "0.5em" }}>
+              <Form.Label>Add Tags</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="JS"
+                value={newTag}
+                name="Tag"
+                onChange={(e) => setNewTag(e.target.value)}
+              />
+              <Button
+                onClick={(e) => {
+                  if (!newTag) return;
+                  setNewQuestion({
+                    ...newQuestion,
+                    tags: [...newQuestion.tags, newTag],
+                  });
+                  setNewTag("");
+                }}
+              >
+                {" "}
+                Add{" "}
+              </Button>
+            </Form.Group>
+            {newQuestion.tags.map((tag, index) => (
+              <h4 key={index}>
+                <Badge variant="success" style={{ marginRight: "0.5em" }}>
+                  {tag}
+                </Badge>
+              </h4>
+            ))}
+          </div>
+
           <Form.File id="formcheck-api-regular">
             <Form.File.Label>Add a screenshot</Form.File.Label>
             <Form.File.Input

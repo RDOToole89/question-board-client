@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { apiUrl } from "../../config/constants";
+import { fetchSingleBoard } from "../boards/actions";
 import { AppThunk } from "../types";
 import { selectToken } from "../user/selectors";
 export const SET_QUEUE = "SET_QUEUE";
@@ -56,12 +57,12 @@ export const uploadNewQuestion = (
           tags,
         },
         {
-          // headers: { "Content-type": "application/json" },
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("uploadNewQuestion answer", answer);
+
       dispatch(getQueue());
+      dispatch(fetchSingleBoard(questionBoardId));
     } catch (error) {
       console.log(error);
     }
