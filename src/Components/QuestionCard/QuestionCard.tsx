@@ -20,7 +20,6 @@ interface cardProps {
 
 function QuestionCard(props: cardProps) {
 	const { title, body, resolved, upVotes, tags, author, messageId, createdAt, boardId } = props;
-
 	const [ openMessages, setOpenMessages ] = useState([]);
 	const [ screenshotActive, setScreenshotActive ] = useState(false);
 
@@ -37,7 +36,6 @@ function QuestionCard(props: cardProps) {
 	};
 
 	const openScreenshot = () => {
-		console.log('OPEN SCREENSHOT');
 		setScreenshotActive(!screenshotActive);
 	};
 

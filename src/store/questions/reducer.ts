@@ -1,4 +1,3 @@
-import { AccordionActions } from '@material-ui/core';
 import { SAVE_QUESTION, SET_QUEUE } from './actions';
 
 interface QuestionState {
@@ -8,7 +7,7 @@ interface QuestionState {
 
 const initialState: QuestionState = {
 	queue: [],
-	single: {}
+	single: { author: {}, comments: [] }
 };
 // eslint-disable-next-line
 export default (state = initialState, { type, payload }: Action) => {
