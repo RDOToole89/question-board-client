@@ -1,0 +1,23 @@
+.QuestionDetails {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.question-wrapper {
+	display: flex;
+	padding-top: 6em;
+	width: 60%;
+}
+
+.question-screenshot {
+	width: 40%;
+}
+
+.question-content {
+	width: 60%;
+}
+
+.question-body {
+	width: 80%;
+}
