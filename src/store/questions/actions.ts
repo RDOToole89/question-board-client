@@ -1,12 +1,11 @@
-
-import Axios from 'axios';
-import { apiUrl } from '../../config/constants';
-import { AppThunk } from '../types';
+import Axios from "axios";
+import { apiUrl } from "../../config/constants";
+import { AppThunk } from "../types";
 import { fetchSingleBoard } from "../boards/actions";
-import { selectToken } from '../user/selectors';
-export const SET_QUEUE = 'SET_QUEUE';
-export const SAVE_QUESTION = 'SAVE_QUESTION';
-export const SAVE_COMMENT = 'SAVE_COMMENT';
+import { selectToken } from "../user/selectors";
+export const SET_QUEUE = "SET_QUEUE";
+export const SAVE_QUESTION = "SAVE_QUESTION";
+export const SAVE_COMMENT = "SAVE_COMMENT";
 
 export const saveQuestion = (question: {}) => {
   return {
@@ -31,7 +30,10 @@ export const getQueue = (): AppThunk => async (dispatch, getState) => {
   });
 };
 
-export const getQuestion = (questionId: number): AppThunk => async (dispatch, getState) => {
+export const getQuestion = (questionId: number): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     const response = await Axios.get(`${apiUrl}/questions/${questionId}`);
 
@@ -43,7 +45,11 @@ export const getQuestion = (questionId: number): AppThunk => async (dispatch, ge
   }
 };
 
-export const updateQuestion = (questionId: number, key: string, newValue: any): AppThunk => {
+export const updateQuestion = (
+  questionId: number,
+  key: string,
+  newValue: any
+): AppThunk => {
   return async (dispatch, getState) => {
     const token = selectToken(getState());
     const serverResponse = await Axios.put(
@@ -68,9 +74,7 @@ export const uploadNewQuestion = (
   base64EncodedImage: string,
   tags: string[]
 ): AppThunk => {
-  console.log("in upload func");
   return async (dispatch, getState) => {
-    console.log("in the thunk");
     try {
       const token = selectToken(getState());
       const answer = await Axios.post(
@@ -89,6 +93,7 @@ export const uploadNewQuestion = (
 
       dispatch(getQueue());
       dispatch(fetchSingleBoard(questionBoardId));
+      return answer;
     } catch (error) {
       console.log(error);
     }
