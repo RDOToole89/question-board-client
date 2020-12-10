@@ -1,18 +1,24 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Button } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
 interface ButtonProps {
-	questionId: number;
-	boardId: number;
+  questionId: number;
+  boardId: number;
 }
 
 export default function GoToQuestionButton(props: ButtonProps) {
-	const { questionId, boardId } = props;
-
-	return (
-		<Link to={`/boards/${boardId}/questions/${questionId}`}>
-			<Button variant="primary">Go to question</Button>
-		</Link>
-	);
+  const { questionId, boardId } = props;
+  const history = useHistory();
+  const handleClickToQuestion = (fnBoardId: number, fnQuestionId: number) => {
+    history.push(`/boards/${fnBoardId}/questions/${fnQuestionId}`);
+  };
+  return (
+    <Button
+      onClick={() => handleClickToQuestion(boardId, questionId)}
+      variant="primary"
+    >
+      Go to question
+    </Button>
+  );
 }

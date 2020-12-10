@@ -43,13 +43,14 @@ export default function QuestionForm(props: any) {
     };
   };
   const dispatch = useDispatch();
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const { title, body, questionBoardId, tags } = newQuestion;
-    dispatch(
+    const answer = await dispatch(
       uploadNewQuestion(title, body, questionBoardId, previewSource, tags)
     );
+    console.log("answer", answer);
     props.onHide();
   };
 
