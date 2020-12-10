@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { selectQueue } from "../../store/questions/selectors";
 import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
@@ -8,9 +8,12 @@ import { toggleSidebar } from "../../store/appState/actions";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import UpVotes from "../UpVotes/UpVotes";
 import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
-import { updateQuestion } from "../../store/questions/actions";
+import { getQueue, updateQuestion } from "../../store/questions/actions";
 import { selectUser, selectUserId } from "../../store/user/selectors";
 import { sortQuestionArrayById } from "../../globalFunctions";
+import io from "socket.io-client";
+import { apiUrl } from "../../config/constants";
+import { fetchSingleBoard } from "../../store/boards/actions";
 
 interface propsButton {
   text: string;
@@ -33,16 +36,34 @@ interface PropsQuestion {
 function PendingQuestion({ question }: PropsQuestion) {
   const { id, title, author, upVotes, solver } = question;
   const { firstName, lastName, classNo } = author;
+  const [socketId, setSocketId] = useState(0);
+  type SocketRef = { current: any };
+  const socketRef: SocketRef = useRef();
 
   const userId = useSelector(selectUserId);
   const isUserATeacher = useSelector(selectUser).isTeacher;
   const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
-    dispatch(updateQuestion(questionId, "resolved", true));
+    //dispatch(updateQuestion(questionId, "resolved", true));
+    socketRef.current.emit("resolveQuestion", questionId);
   };
   const helpClickHandler = (questionId: number, solverId: number | null) => {
-    dispatch(updateQuestion(questionId, "solverId", solverId));
+    //dispatch(updateQuestion(questionId, "solverId", solverId));
+    socketRef.current.emit("updateSolverId", { questionId, solverId });
   };
+
+  useEffect(() => {
+    socketRef.current = io.connect(`${apiUrl}`);
+
+    socketRef.current.on("socketId", (id: number) => {
+      setSocketId(id);
+    });
+
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
+      dispatch(getQueue());
+      // dispatch(fetchSingleBoard(updatedQuestion.questionBoardId));
+    });
+  }, [dispatch]);
 
   return (
     <Card>
