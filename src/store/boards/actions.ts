@@ -62,9 +62,8 @@ export const incrementUpvote = (questionId: number): AppThunk => async (dispatch
   try {
     const response = await Axios.put(`${apiUrl}/questions/upvote/${questionId}`);
 
-    console.log(response);
-
     if (response) {
+      dispatch(getQuestion(questionId));
       dispatch(fetchSingleBoard(1));
       dispatch(getQueue());
     }
