@@ -14,6 +14,8 @@ import { selectToken, selectUser } from '../../store/user/selectors';
 import UpVotesComments from '../../Components/UpVotesComments/UpVotesComments';
 import ScreenshotModal from '../../Components/ScreenshotModal/ScreenshotModal';
 import EditMode from './EditMode';
+import DeleteQuestionButton from "../../Components/DeleteQuestionButton/DeleteQuestionButton";
+
 
 interface Params {
   id: string;
@@ -43,9 +45,15 @@ function QuestionDetails() {
   const questionId = parseInt(params.id);
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
-  const question = useSelector(selectQuestion);
+
+  const question: QuestionWithAuthorAndSolver = useSelector(selectQuestion);
+
+  const userId = useSelector(selectUserId);
+  const isUserATeacher = useSelector(selectUser).isTeacher;
+
+
   const questionAuthorId = question.authorId;
-  const userId = user.id;
+
   const [screenshotActive, setScreenshotActive] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [socketId, setSocketId] = useState(0);
@@ -54,6 +62,7 @@ function QuestionDetails() {
     title: question.title,
     body: question.body,
   });
+
 
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
@@ -149,9 +158,17 @@ function QuestionDetails() {
                 <i className='QuestionCard-icon text-danger las la-times-circle la-2x' />
               </div>
             )}
+
             <div className='upvote-box'>
               <UpVotes upVotes={question.upVotes} messageId={question.id} />{' '}
               <ScreenshotModal screenshotURL={question.screenshotURL} />
+               {userId === question.authorId || isUserATeacher ? (
+              <DeleteQuestionButton
+                questionId={question.id}
+                questionBoardId={question.questionBoardId}
+              />
+            ) : (
+              "")}
             </div>
             {editMode && (
               <EditMode
@@ -179,7 +196,8 @@ function QuestionDetails() {
                   Edit Question
                 </Button>
               )
-            )}
+
+            
           </div>
         </div>
       </div>
