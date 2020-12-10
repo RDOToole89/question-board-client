@@ -15,6 +15,7 @@ import { apiUrl } from "../../config/constants";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import UpVotesComments from "../../Components/UpVotesComments/UpVotesComments";
+import ScreenshotModal from "../../Components/ScreenshotModal/ScreenshotModal";
 
 interface Params {
   id: string;
@@ -139,16 +140,12 @@ function QuestionDetails() {
                 <i className="QuestionCard-icon text-danger las la-times-circle la-2x" />
               </div>
             )}
-            <div onClick={openScreenshot} className="screenshot">
+            {/* <div onClick={openScreenshot} className="screenshot">
               <i className="las la-image" /> Screenshot
-            </div>
+            </div> */}
             <UpVotes upVotes={question.upVotes} messageId={question.id} />
+            <ScreenshotModal screenshotURL={question.screenshotURL} />
           </div>
-          {screenshotActive && (
-            <div className="question-screenshot">
-              <img src={question.screenshotURL} />
-            </div>
-          )}
         </div>
       </div>
       <div className="comment-section">
