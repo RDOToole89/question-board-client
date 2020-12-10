@@ -50,7 +50,6 @@ function QuestionDetails() {
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
-  const [screenshotActive, setScreenshotActive] = useState(false);
   const [socketId, setSocketId] = useState(0);
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
