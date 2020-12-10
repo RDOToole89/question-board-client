@@ -17,9 +17,14 @@ import "./QuestionDetails.css";
 import io from "socket.io-client";
 import { apiUrl } from "../../config/constants";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
-import { selectToken, selectUser } from "../../store/user/selectors";
+import {
+  selectToken,
+  selectUser,
+  selectUserId,
+} from "../../store/user/selectors";
 import UpVotesComments from "../../Components/UpVotesComments/UpVotesComments";
 import ScreenshotModal from "../../Components/ScreenshotModal/ScreenshotModal";
+import DeleteQuestionButton from "../../Components/DeleteQuestionButton/DeleteQuestionButton";
 
 interface Params {
   id: string;
@@ -49,8 +54,10 @@ function QuestionDetails() {
   const questionId = parseInt(params.id);
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
-  const question = useSelector(selectQuestion);
+  const question: QuestionWithAuthorAndSolver = useSelector(selectQuestion);
   const [socketId, setSocketId] = useState(0);
+  const userId = useSelector(selectUserId);
+  const isUserATeacher = useSelector(selectUser).isTeacher;
 
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
@@ -144,6 +151,14 @@ function QuestionDetails() {
 
             <UpVotes upVotes={question.upVotes} messageId={question.id} />
             <ScreenshotModal screenshotURL={question.screenshotURL} />
+            {userId === question.authorId || isUserATeacher ? (
+              <DeleteQuestionButton
+                questionId={question.id}
+                questionBoardId={question.questionBoardId}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
