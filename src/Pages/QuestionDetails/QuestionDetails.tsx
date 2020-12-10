@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import TagBox from '../../Components/TagBox/TagBox';
 import UpVotes from '../../Components/UpVotes/UpVotes';
 import { getQuestion, saveComment } from '../../store/questions/actions';
-import { selectQuestion } from '../../store/questions/selectors';
+import { selectQuestion, selectSortedComments } from '../../store/questions/selectors';
 import moment from 'moment';
 import './QuestionDetails.css';
 import io from 'socket.io-client';
@@ -36,6 +36,7 @@ function QuestionDetails() {
   const user = useSelector(selectUser);
   const params: Params = useParams();
   const questionId = parseInt(params.id);
+  const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
   const [screenshotActive, setScreenshotActive] = useState(false);
@@ -50,11 +51,9 @@ function QuestionDetails() {
   });
 
   const { tags, resolved, createdAt } = question;
-  // // @ts-ignore
-  const socketRef = useRef();
-  // console.log('MESSAGES ARRAY', comments);
-  // console.log("SOCKETID", socketId);
-  console.log('QUESTION', question);
+
+  type SocketRef = { current: any };
+  const socketRef: SocketRef = useRef();
 
   useEffect(() => {
     if (!token) {
@@ -62,42 +61,42 @@ function QuestionDetails() {
     }
 
     dispatch(getQuestion(questionId));
-    // @ts-ignore
+
     socketRef.current = io.connect(`${apiUrl}`);
-    // @ts-ignore
-    socketRef.current.on('socketId', (id) => {
+
+    socketRef.current.on('socketId', (id: number) => {
       setSocketId(id);
     });
-    // @ts-ignore
-    socketRef.current.on('comment', (commentBody) => {
+
+    socketRef.current.on('comment', (commentBody: Comment) => {
       console.log(commentBody);
-      // @ts-ignore
+
       dispatch(saveComment(commentBody));
-      // handleReceivedComments(commentBody);
     });
   }, [dispatch]);
-  // @ts-ignore
 
-  const sendComment = (comment: any) => (e: any) => {
-    e.preventDefault();
-    // @ts-ignore
-    socketRef.current.emit('comment', {
-      questionId: questionId,
-      body: comment.body,
-      authorId: user.id,
-      upVotes: 0,
-      isSolution: null,
-    });
-
-    setComment({
-      questionId: questionId,
-      body: '',
-      authorId: user.id,
-      upVotes: 0,
-      isSolution: null,
+  const sendComment = (comment: Comment) => (e: any) => {
+    if (e.keyCode === 13 || e.type === 'click') {
       // @ts-ignore
-      author: { firstName: '', lastName: '' },
-    });
+      socketRef.current.emit('comment', {
+        questionId: questionId,
+        body: comment.body,
+        authorId: user.id,
+        upVotes: 0,
+        isSolution: null,
+        author: { firstName: user.firstName, lastName: user.lastName },
+        createdAt: new Date(),
+      });
+
+      setComment({
+        questionId: questionId,
+        body: '',
+        authorId: user.id,
+        upVotes: 0,
+        isSolution: null,
+        author: { firstName: '', lastName: '' },
+      });
+    }
   };
 
   const openScreenshot = () => {
@@ -140,28 +139,26 @@ function QuestionDetails() {
         </div>
       </div>
       <div className='comment-section'>
-        <Form onSubmit={sendComment(comment)}>
-          <InputGroup className='mb-3 mt-2'>
-            <FormControl
-              onChange={(e) => setComment({ ...comment, body: e.target.value })}
-              // onKeyPress={sendComment(comment)}
-              placeholder='write a reply...'
-              value={comment.body}
-              aria-label='add tag'
-              aria-describedby='basic-addon'
-            />
-            <InputGroup.Append>
-              <Button onClick={sendComment(comment)} variant='outline-secondary'>
-                <i className='las la-check'></i>
-              </Button>
-            </InputGroup.Append>
-          </InputGroup>
-        </Form>
+        <InputGroup className='mb-3 mt-2'>
+          <FormControl
+            onChange={(e) => setComment({ ...comment, body: e.target.value })}
+            onKeyPress={sendComment(comment)}
+            placeholder='write a reply...'
+            value={comment.body}
+            aria-label='add tag'
+            aria-describedby='basic-addon'
+          />
+          <InputGroup.Append>
+            <Button onClick={sendComment(comment)} variant='outline-secondary'>
+              <i className='las la-check'></i>
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
         <div className='comments'>
-          {question?.comments.map((x: Comment, i: any) => {
+          {comments.map((x: Comment, i: number) => {
             return (
               <div key={i} className='comment'>
-                {/* <h5>{`${x.author.firstName} ${x.author.lastName}`}</h5> */}
+                <h5>{`${x.author.firstName} ${x.author.lastName}`}</h5>
                 <p>{x.body}</p>
                 <hr></hr>
               </div>
