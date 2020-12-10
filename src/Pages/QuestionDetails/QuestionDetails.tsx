@@ -137,6 +137,7 @@ function QuestionDetails() {
               .startOf('hour')
               .fromNow()}  `}</p>
             <TagBox tags={tags} />
+
             {resolved ? (
               <div className='QuestionCard-pending'>
                 Status: resolved
@@ -148,7 +149,10 @@ function QuestionDetails() {
                 <i className='QuestionCard-icon text-danger las la-times-circle la-2x' />
               </div>
             )}
-            <UpVotes upVotes={question.upVotes} messageId={question.id} />
+            <div className='upvote-box'>
+              <UpVotes upVotes={question.upVotes} messageId={question.id} />{' '}
+              <ScreenshotModal screenshotURL={question.screenshotURL} />
+            </div>
             {editMode && (
               <EditMode
                 questionId={questionId}
@@ -176,8 +180,6 @@ function QuestionDetails() {
                 </Button>
               )
             )}
-
-            <ScreenshotModal screenshotURL={question.screenshotURL} />
           </div>
         </div>
       </div>
