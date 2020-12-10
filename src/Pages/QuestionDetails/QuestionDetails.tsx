@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -16,6 +17,7 @@ import { Button, FormControl, InputGroup } from "react-bootstrap";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import UpVotesComments from "../../Components/UpVotesComments/UpVotesComments";
 import ScreenshotModal from "../../Components/ScreenshotModal/ScreenshotModal";
+
 
 interface Params {
   id: string;
@@ -59,9 +61,6 @@ function QuestionDetails() {
     createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
   });
 
-  console.log("COMMENT", comment);
-
-  console.log(comments);
 
   const { tags, resolved, createdAt } = question;
 
@@ -70,32 +69,37 @@ function QuestionDetails() {
 
   useEffect(() => {
     if (!token) {
-      history.push("/");
+      history.push('/');
     }
 
     dispatch(getQuestion(questionId));
 
     socketRef.current = io.connect(`${apiUrl}`);
 
-    socketRef.current.on("socketId", (id: number) => {
+
+
+    socketRef.current.on('socketId', (id: number) => {
       setSocketId(id);
     });
 
-    socketRef.current.on("comment", (commentBody: Comment) => {
+    socketRef.current.on('comment', (commentBody: Comment) => {
+
       console.log(commentBody);
 
-      dispatch(saveComment(commentBody));
+      dispatch(saveQuestion(commentBody));
     });
   }, [dispatch]);
 
   const sendComment = (comment: Comment) => (e: any) => {
-    if (e.keyCode === 13 || e.type === "click") {
+
+    if (e.key === 'Enter' || e.type === 'click') {
+
       // @ts-ignore
       socketRef.current.emit("comment", {
         questionId: questionId,
         body: comment.body,
         authorId: user.id,
-        upVotes: 0,
+        upVotes: comment.upVotes,
         isSolution: null,
         author: { firstName: user.firstName, lastName: user.lastName },
         createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
@@ -117,35 +121,36 @@ function QuestionDetails() {
     setScreenshotActive(!screenshotActive);
   };
 
+  // console.log(question);
+
   return (
     <div>
-      <div className="QuestionDetails">
-        <div className="question-wrapper">
-          <div className="question-content">
+      <div className='QuestionDetails'>
+        <div className='question-wrapper'>
+          <div className='question-content'>
             <h2>{question.title}</h2>
             <h4>{`${question.author.firstName} ${question.author.lastName} (${question.author.classNo})`}</h4>
-            <p className="question-body">{question.body}</p>
+            <p className='question-body'>{question.body}</p>
             <p>{`${moment(createdAt).calendar()} - ${moment(createdAt)
-              .startOf("hour")
+              .startOf('hour')
               .fromNow()}  `}</p>
             <TagBox tags={tags} />
             {resolved ? (
-              <div className="QuestionCard-pending">
+              <div className='QuestionCard-pending'>
                 Status: resolved
-                <i className="QuestionCard-icon text-success las la-check-circle la-2x" />
+                <i className='QuestionCard-icon text-success las la-check-circle la-2x' />
               </div>
             ) : (
-              <div className="QuestionCard-pending">
+              <div className='QuestionCard-pending'>
                 Status: pending
-                <i className="QuestionCard-icon text-danger las la-times-circle la-2x" />
+                <i className='QuestionCard-icon text-danger las la-times-circle la-2x' />
               </div>
             )}
-            {/* <div onClick={openScreenshot} className="screenshot">
-              <i className="las la-image" /> Screenshot
-            </div> */}
+
             <UpVotes upVotes={question.upVotes} messageId={question.id} />
             <ScreenshotModal screenshotURL={question.screenshotURL} />
           </div>
+
         </div>
       </div>
       <div className="comment-section">
@@ -167,12 +172,21 @@ function QuestionDetails() {
         <div className="comments">
           {comments.map((x: Comment, i: number) => {
             return (
-              <div key={i} className="comment">
-                <h5>{`${x.author.firstName} ${x.author.lastName}`}</h5>
-                <p className="timestamp">{`${moment(
-                  createdAt
-                ).calendar()} - ${moment(createdAt)
-                  .startOf("hour")
+
+              <div key={i} className='comment'>
+                <div className='comment-top'>
+                  {`${x.author.firstName} ${x.author.lastName}`}
+                  {x.isSolution && (
+                    <span className='comment-top-span'>
+                      {' '}
+                      &nbsp;- accepted solution{' '}
+                      <i className='QuestionCard-icon text-success las la-check-circle la-2x' />
+                    </span>
+                  )}
+                </div>
+                <p className='timestamp'>{`${moment(createdAt).calendar()} - ${moment(createdAt)
+                  .startOf('hour')
+
                   .fromNow()}  `}</p>
 
                 <p>{x.body}</p>

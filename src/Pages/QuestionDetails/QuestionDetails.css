@@ -29,3 +29,13 @@
   flex-direction: column;
   width: 90%;
 }
+
+.comment-top {
+  display: flex;
+  align-items: center;
+}
+
+.comment-top-span {
+  display: flex;
+  align-items: center;
+}
