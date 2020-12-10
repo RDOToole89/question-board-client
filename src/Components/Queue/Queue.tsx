@@ -10,6 +10,7 @@ import UpVotes from "../UpVotes/UpVotes";
 import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
 import { updateQuestion } from "../../store/questions/actions";
 import { selectUser, selectUserId } from "../../store/user/selectors";
+import { sortQuestionArrayById } from "../../globalFunctions";
 
 interface propsButton {
   text: string;
@@ -80,8 +81,11 @@ function PendingQuestion({ question }: PropsQuestion) {
 }
 
 export default function Queue() {
-  const queue = useSelector(selectQueue);
-  const sortedQueue = queue.sort((a, b) => a.createdAt - b.createdAt);
+  const queue: QuestionWithAuthorAndSolver[] = useSelector(selectQueue);
+  //@ts-ignore
+  const sortedQueue: QuestionWithAuthorAndSolver[] = sortQuestionArrayById(
+    queue
+  );
   const showSidebar = useSelector(selectShowSidebar);
 
   if (!showSidebar) {
