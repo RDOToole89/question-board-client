@@ -28,6 +28,7 @@ export const getQueue = (): AppThunk => async (dispatch, getState) => {
     type: SET_QUEUE,
     payload: serverResponse.data,
   });
+  return serverResponse.data;
 };
 
 export const getQuestion = (questionId: number): AppThunk => async (
@@ -91,8 +92,8 @@ export const uploadNewQuestion = (
         }
       );
 
-      dispatch(getQueue());
-      dispatch(fetchSingleBoard(questionBoardId));
+      await dispatch(getQueue());
+      await dispatch(fetchSingleBoard(questionBoardId));
       return answer;
     } catch (error) {
       console.log(error);
