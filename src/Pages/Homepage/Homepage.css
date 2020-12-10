@@ -1,6 +1,7 @@
 .Homepage {
   margin: 0 auto;
   padding: 4em 0;
+  flex-shrink: 20;
 }
 
 .header {
@@ -11,6 +12,7 @@
 .Homepage-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -18,7 +20,8 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 60%;
+  /* width: 60%; */
+
   padding: 2em;
 }
 

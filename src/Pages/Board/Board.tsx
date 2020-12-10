@@ -57,6 +57,7 @@ function Board() {
                 // @ts-ignore
                 author={x.author}
                 boardId={id}
+                screenshotURL={x.screenshotURL}
               />
             );
           })}

@@ -1,5 +1,5 @@
 .sidebar {
-  width: 30em;
+  min-width: 350px;
   height: 100vh;
   margin-left: auto;
   order: 100;
