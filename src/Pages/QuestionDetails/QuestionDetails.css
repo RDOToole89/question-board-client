@@ -15,9 +15,9 @@
   width: 40%;
 }
 
-.question-content {
+/* .question-content {
   width: 60%;
-}
+} */
 
 .question-body {
   width: 80%;
@@ -27,5 +27,5 @@
   padding-left: 6em;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 90%;
 }
