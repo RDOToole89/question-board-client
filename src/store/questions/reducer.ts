@@ -1,7 +1,7 @@
-import { SAVE_COMMENT, SAVE_QUESTION, SET_QUEUE } from './actions';
+import { SAVE_COMMENT, SAVE_QUESTION, SET_QUEUE } from "./actions";
 
 interface QuestionState {
-  queue: Question[];
+  queue: QuestionWithAuthorAndSolver[];
   single: { author: {}; comments: []; tags: [] };
 }
 
@@ -24,7 +24,9 @@ export default (state = initialState, { type, payload }: Action) => {
     case SAVE_COMMENT: {
       return {
         ...state,
+
         single: { ...state.single, comments: [{ ...payload }, ...state.single.comments] },
+
       };
     }
 
