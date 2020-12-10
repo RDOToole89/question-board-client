@@ -11,6 +11,7 @@ import io from 'socket.io-client';
 import { apiUrl } from '../../config/constants';
 import { Button, Col, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { selectToken, selectUser } from '../../store/user/selectors';
+import UpVotesComments from '../../Components/UpVotesComments/UpVotesComments';
 
 interface Params {
   id: string;
@@ -22,12 +23,14 @@ interface Author {
 }
 
 interface Comment {
-  questionId: number | '';
+  id: number;
+  questionId: number;
   body: string;
-  authorId: number | '';
-  upVotes: number | '';
+  authorId: number;
+  upVotes: number;
   isSolution: boolean | null;
   author: Author;
+  createdAt?: string | null | number | {};
 }
 
 function QuestionDetails() {
@@ -41,14 +44,20 @@ function QuestionDetails() {
   const question = useSelector(selectQuestion);
   const [screenshotActive, setScreenshotActive] = useState(false);
   const [socketId, setSocketId] = useState(0);
+  // @ts-ignore
   const [comment, setComment] = useState<Comment>({
-    questionId: '',
+    questionId: 0,
     body: '',
     authorId: user.id,
-    upVotes: '',
+    upVotes: 0,
     isSolution: null,
     author: { firstName: '', lastName: '' },
+    createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
   });
+
+  console.log('COMMENT', comment);
+
+  console.log(comments);
 
   const { tags, resolved, createdAt } = question;
 
@@ -85,9 +94,9 @@ function QuestionDetails() {
         upVotes: 0,
         isSolution: null,
         author: { firstName: user.firstName, lastName: user.lastName },
-        createdAt: new Date(),
+        createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
       });
-
+      // @ts-ignore
       setComment({
         questionId: questionId,
         body: '',
@@ -95,6 +104,7 @@ function QuestionDetails() {
         upVotes: 0,
         isSolution: null,
         author: { firstName: '', lastName: '' },
+        createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
       });
     }
   };
@@ -159,7 +169,11 @@ function QuestionDetails() {
             return (
               <div key={i} className='comment'>
                 <h5>{`${x.author.firstName} ${x.author.lastName}`}</h5>
+                <p className='timestamp'>{`${moment(createdAt).calendar()} - ${moment(createdAt)
+                  .startOf('hour')
+                  .fromNow()}  `}</p>
                 <p>{x.body}</p>
+                <UpVotesComments questionId={questionId} upVotes={x.upVotes} commentId={x.id} />
                 <hr></hr>
               </div>
             );
