@@ -51,6 +51,7 @@ function QuestionDetails() {
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
   const [socketId, setSocketId] = useState(0);
+
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
     questionId: 0,
@@ -84,6 +85,11 @@ function QuestionDetails() {
       console.log(commentBody);
 
       dispatch(saveQuestion(commentBody));
+    });
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
+      if ((updatedQuestion.id = questionId)) {
+        dispatch(getQuestion(questionId));
+      }
     });
   }, [dispatch]);
 

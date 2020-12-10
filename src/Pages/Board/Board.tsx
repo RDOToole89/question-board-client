@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,8 @@ import {
   selectSingleBoard,
 } from "../../store/boards/selectors";
 import "./Board.css";
+import io from "socket.io-client";
+import { apiUrl } from "../../config/constants";
 
 function Board() {
   const params = useParams();
@@ -20,12 +22,18 @@ function Board() {
   const questions = useSelector(selectQuestions);
   const [modalShow, setModalShow] = useState(false);
 
+  type SocketRef = { current: any };
+  const socketRef: SocketRef = useRef();
+
   useEffect(() => {
     dispatch(fetchSingleBoard(id));
+    socketRef.current = io.connect(`${apiUrl}`);
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
+      if ((updatedQuestion.questionBoardId = id)) {
+        dispatch(fetchSingleBoard(id));
+      }
+    });
   }, [dispatch, id]);
-
-  console.log(board);
-  console.log(questions);
 
   return (
     <div className="QuestionBoard">

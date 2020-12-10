@@ -61,7 +61,7 @@ function PendingQuestion({ question }: PropsQuestion) {
 
     socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
       dispatch(getQueue());
-      dispatch(fetchSingleBoard(updatedQuestion.questionBoardId));
+      // dispatch(fetchSingleBoard(updatedQuestion.questionBoardId));
     });
   }, [dispatch]);
 
