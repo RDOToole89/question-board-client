@@ -40,6 +40,7 @@ export const fetchSingleBoard = (id: number): AppThunk => async (dispatch, getSt
     if (response) {
       dispatch(saveSingleBoard({ ...response.data }));
     }
+    return response.data;
   } catch (e) {
     console.log(e);
   }
