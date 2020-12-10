@@ -24,10 +24,9 @@ export default (state = initialState, { type, payload }: Action) => {
     case SAVE_COMMENT: {
       return {
         ...state,
-        single: {
-          ...state.single,
-          comments: [...state.single.comments, { ...payload }],
-        },
+
+        single: { ...state.single, comments: [{ ...payload }, ...state.single.comments] },
+
       };
     }
 
