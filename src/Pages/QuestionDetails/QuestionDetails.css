@@ -24,15 +24,21 @@
 }
 
 .comment-section {
-  padding-left: 6em;
+  padding: 1em 0em 8em 6em;
   display: flex;
   flex-direction: column;
   width: 90%;
 }
 
 .comment-top {
+  padding: 0.2em 0.5em;
+  border-radius: 8px;
   display: flex;
   align-items: center;
+}
+
+.comment-top-green {
+  background: #5cb85c;
 }
 
 .comment-top-span {

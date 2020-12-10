@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -47,10 +48,20 @@ function QuestionDetails() {
   const user = useSelector(selectUser);
   const params: Params = useParams();
   const questionId = parseInt(params.id);
+
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
+  const questionAuthorId = question.authorId;
+  const userId = user.id;
+  const [screenshotActive, setScreenshotActive] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [socketId, setSocketId] = useState(0);
+  const [editQuestion, setEditQuestion] = useState({
+    id: question.id,
+    title: question.title,
+    body: question.body,
+  });
 
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
@@ -62,6 +73,13 @@ function QuestionDetails() {
     author: { firstName: "", lastName: "" },
     createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
   });
+
+  console.log(editMode);
+
+  console.log(question);
+
+  console.log('QUESTION AUTHORID', questionAuthorId);
+  console.log('USERID', userId);
 
   const { tags, resolved, createdAt } = question;
 
@@ -81,8 +99,9 @@ function QuestionDetails() {
       setSocketId(id);
     });
 
-    socketRef.current.on("comment", (commentBody: Comment) => {
-      console.log(commentBody);
+    socketRef.current.on('comment', (commentBody: Comment) => {
+      // console.log(commentBody);
+
 
       dispatch(saveQuestion(commentBody));
     });
@@ -118,6 +137,11 @@ function QuestionDetails() {
     }
   };
 
+  const openScreenshot = () => {
+    setScreenshotActive(!screenshotActive);
+  };
+
+
   return (
     <div>
       <div className="QuestionDetails">
@@ -143,7 +167,37 @@ function QuestionDetails() {
             )}
 
             <UpVotes upVotes={question.upVotes} messageId={question.id} />
+
+            {editMode && (
+              <EditMode
+                questionId={questionId}
+                editQuestion={editQuestion}
+                setEditQuestion={setEditQuestion}
+              />
+            )}
+            {editMode ? (
+              <div>
+                <Button
+                  variant='success'
+                  className='mr-4 mt-3'
+                  // onClick={() => handleSaveProfile()}
+                >
+                  Save
+                </Button>
+                <Button className='mt-3' onClick={() => setEditMode(!editMode)}>
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              questionAuthorId === userId && (
+                <Button variant='secondary' className='mt-1' onClick={() => setEditMode(!editMode)}>
+                  Edit Question
+                </Button>
+              )
+            )}
+
             <ScreenshotModal screenshotURL={question.screenshotURL} />
+
           </div>
         </div>
       </div>
@@ -166,8 +220,9 @@ function QuestionDetails() {
         <div className="comments">
           {comments.map((x: Comment, i: number) => {
             return (
-              <div key={i} className="comment">
-                <div className="comment-top">
+              <div key={i} className='comment'>
+                <div className={x.isSolution ? ' comment-top comment-top-green' : 'comment-top'}>
+
                   {`${x.author.firstName} ${x.author.lastName}`}
                   {x.isSolution && (
                     <span className="comment-top-span">

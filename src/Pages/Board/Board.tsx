@@ -13,6 +13,7 @@ import "./Board.css";
 import io from "socket.io-client";
 import { apiUrl } from "../../config/constants";
 
+
 function Board() {
   const params = useParams();
   // @ts-ignore
@@ -36,20 +37,20 @@ function Board() {
   }, [dispatch, id]);
 
   return (
-    <div className="QuestionBoard">
-      <div className="QuestionBoard-title-wrapper">
+    <div className='QuestionBoard'>
+      <div className='QuestionBoard-title-wrapper'>
         <h1>{board.name}</h1>
         <p>{board.description}</p>
       </div>
       <Container>
-        <div className="FORM">
-          <Button variant="primary" onClick={() => setModalShow(true)}>
+        <div className='FORM'>
+          <Button variant='primary' onClick={() => setModalShow(true)}>
             Post a new question
           </Button>
 
           <QuestionForm show={modalShow} onHide={() => setModalShow(false)} />
         </div>
-        <div className="QuestionCard-wrapper">
+        <div className='QuestionCard-wrapper'>
           {questions?.map((x: Question) => {
             return (
               // @ts-ignore
