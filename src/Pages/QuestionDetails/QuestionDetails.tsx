@@ -74,7 +74,7 @@ function QuestionDetails() {
     });
 
     socketRef.current.on('comment', (commentBody: Comment) => {
-      console.log(commentBody);
+      // console.log(commentBody);
 
       dispatch(saveQuestion(commentBody));
     });
@@ -108,8 +108,6 @@ function QuestionDetails() {
   const openScreenshot = () => {
     setScreenshotActive(!screenshotActive);
   };
-
-  // console.log(question);
 
   return (
     <div>
@@ -166,7 +164,7 @@ function QuestionDetails() {
           {comments.map((x: Comment, i: number) => {
             return (
               <div key={i} className='comment'>
-                <div className='comment-top'>
+                <div className={x.isSolution ? ' comment-top comment-top-green' : 'comment-top'}>
                   {`${x.author.firstName} ${x.author.lastName}`}
                   {x.isSolution && (
                     <span className='comment-top-span'>

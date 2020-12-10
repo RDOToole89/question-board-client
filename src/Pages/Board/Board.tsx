@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import QuestionCard from "../../Components/QuestionCard/QuestionCard";
-import QuestionForm from "../../Components/QuestionForm/QuestionForm";
-import { fetchSingleBoard } from "../../store/boards/actions";
-import {
-  selectQuestions,
-  selectSingleBoard,
-} from "../../store/boards/selectors";
-import "./Board.css";
+import React, { useState, useEffect } from 'react';
+import { Button, Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import QuestionCard from '../../Components/QuestionCard/QuestionCard';
+import QuestionForm from '../../Components/QuestionForm/QuestionForm';
+import { fetchSingleBoard } from '../../store/boards/actions';
+import { selectQuestions, selectSingleBoard } from '../../store/boards/selectors';
+import './Board.css';
 
 function Board() {
   const params = useParams();
@@ -24,24 +21,21 @@ function Board() {
     dispatch(fetchSingleBoard(id));
   }, [dispatch, id]);
 
-  console.log(board);
-  console.log(questions);
-
   return (
-    <div className="QuestionBoard">
-      <div className="QuestionBoard-title-wrapper">
+    <div className='QuestionBoard'>
+      <div className='QuestionBoard-title-wrapper'>
         <h1>{board.name}</h1>
         <p>{board.description}</p>
       </div>
       <Container>
-        <div className="FORM">
-          <Button variant="primary" onClick={() => setModalShow(true)}>
+        <div className='FORM'>
+          <Button variant='primary' onClick={() => setModalShow(true)}>
             Post a new question
           </Button>
 
           <QuestionForm show={modalShow} onHide={() => setModalShow(false)} />
         </div>
-        <div className="QuestionCard-wrapper">
+        <div className='QuestionCard-wrapper'>
           {questions?.map((x: Question) => {
             return (
               // @ts-ignore
