@@ -12,6 +12,7 @@ import { apiUrl } from '../../config/constants';
 import { Button, Col, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { selectToken, selectUser } from '../../store/user/selectors';
 import UpVotesComments from '../../Components/UpVotesComments/UpVotesComments';
+import EditMode from './EditMode';
 
 interface Params {
   id: string;
@@ -43,7 +44,13 @@ function QuestionDetails() {
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
   const [screenshotActive, setScreenshotActive] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [socketId, setSocketId] = useState(0);
+  const [editQuestion, setEditQuestion] = useState({
+    id: question.id,
+    title: question.title,
+    body: question.body,
+  });
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
     questionId: 0,
@@ -54,6 +61,8 @@ function QuestionDetails() {
     author: { firstName: '', lastName: '' },
     createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
   });
+
+  console.log(editMode);
 
   const { tags, resolved, createdAt } = question;
 
@@ -136,6 +145,16 @@ function QuestionDetails() {
               <i className='las la-image' /> Screenshot
             </div>
             <UpVotes upVotes={question.upVotes} messageId={question.id} />
+            {editMode && (
+              <EditMode
+                questionId={questionId}
+                editQuestion={editQuestion}
+                setEditQuestion={setEditQuestion}
+              />
+            )}
+            <Button onClick={() => setEditMode(!editMode)} variant='secondary'>
+              Edit post
+            </Button>
           </div>
           {screenshotActive && (
             <div className='question-screenshot'>
