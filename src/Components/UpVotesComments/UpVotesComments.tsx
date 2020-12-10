@@ -1,20 +1,21 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { incrementUpvote } from '../../store/boards/actions';
+import { incrementCommentUpvote } from '../../store/boards/actions';
 
 import './UpVotes.css';
 
 interface UpVoteProps {
   upVotes: number;
-  messageId: number;
+  commentId: number;
+  questionId: number;
 }
 
-function UpVotes(props: UpVoteProps) {
+function UpVotesComments(props: UpVoteProps) {
   const dispatch = useDispatch();
-  const { upVotes, messageId } = props;
+  const { upVotes, commentId, questionId } = props;
 
   const increment = () => {
-    dispatch(incrementUpvote(messageId));
+    dispatch(incrementCommentUpvote(questionId, commentId));
   };
 
   return (
@@ -26,4 +27,4 @@ function UpVotes(props: UpVoteProps) {
   );
 }
 
-export default UpVotes;
+export default UpVotesComments;
