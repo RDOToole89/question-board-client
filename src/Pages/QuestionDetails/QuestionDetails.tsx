@@ -40,9 +40,12 @@ function QuestionDetails() {
   const user = useSelector(selectUser);
   const params: Params = useParams();
   const questionId = parseInt(params.id);
+
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
   const question = useSelector(selectQuestion);
+  const questionAuthorId = question.authorId;
+  const userId = user.id;
   const [screenshotActive, setScreenshotActive] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [socketId, setSocketId] = useState(0);
@@ -63,6 +66,11 @@ function QuestionDetails() {
   });
 
   console.log(editMode);
+
+  console.log(question);
+
+  console.log('QUESTION AUTHORID', questionAuthorId);
+  console.log('USERID', userId);
 
   const { tags, resolved, createdAt } = question;
 
@@ -152,9 +160,26 @@ function QuestionDetails() {
                 setEditQuestion={setEditQuestion}
               />
             )}
-            <Button onClick={() => setEditMode(!editMode)} variant='secondary'>
-              Edit post
-            </Button>
+            {editMode ? (
+              <div>
+                <Button
+                  variant='success'
+                  className='mr-4 mt-3'
+                  // onClick={() => handleSaveProfile()}
+                >
+                  Save
+                </Button>
+                <Button className='mt-3' onClick={() => setEditMode(!editMode)}>
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              questionAuthorId === userId && (
+                <Button variant='secondary' className='mt-1' onClick={() => setEditMode(!editMode)}>
+                  Edit Question
+                </Button>
+              )
+            )}
           </div>
           {screenshotActive && (
             <div className='question-screenshot'>
