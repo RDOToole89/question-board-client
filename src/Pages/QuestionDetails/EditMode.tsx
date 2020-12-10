@@ -13,7 +13,7 @@ function EditMode(props: editModeProps) {
   const { editQuestion, setEditQuestion } = props;
 
   return (
-    <div className='MyProfile-editMode-wrapper'>
+    <div className='edit-mode'>
       <h5>Edit question details...</h5>
       <InputGroup className='mb-1'>
         <InputGroup.Prepend>

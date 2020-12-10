@@ -27,7 +27,7 @@
   padding: 1em 0em 8em 6em;
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 50%;
 }
 
 .comment-top {
@@ -44,4 +44,12 @@
 .comment-top-span {
   display: flex;
   align-items: center;
+}
+
+.edit-mode {
+  width: 60%;
+}
+
+.upvote-box {
+  display: flex;
 }
