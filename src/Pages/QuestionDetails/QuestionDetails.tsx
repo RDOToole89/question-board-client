@@ -113,12 +113,6 @@ function QuestionDetails() {
     }
   };
 
-  const openScreenshot = () => {
-    setScreenshotActive(!screenshotActive);
-  };
-
-  // console.log(question);
-
   return (
     <div>
       <div className="QuestionDetails">
