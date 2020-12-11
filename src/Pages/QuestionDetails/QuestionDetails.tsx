@@ -15,6 +15,7 @@ import UpVotesComments from '../../Components/UpVotesComments/UpVotesComments';
 import ScreenshotModal from '../../Components/ScreenshotModal/ScreenshotModal';
 import EditMode from './EditMode';
 import DeleteQuestionButton from '../../Components/DeleteQuestionButton/DeleteQuestionButton';
+import { sortByIsSolution, sortByUpVotes } from '../../globalFunctions';
 
 interface Params {
   id: string;
@@ -25,17 +26,6 @@ interface Author {
   lastName: string;
 }
 
-interface Comment {
-  id: number;
-  questionId: number;
-  body: string;
-  authorId: number;
-  upVotes: number;
-  isSolution: boolean | null;
-  author: Author;
-  createdAt?: string | null | number | {};
-}
-
 function QuestionDetails() {
   const history = useHistory();
   const token = useSelector(selectToken);
@@ -44,11 +34,10 @@ function QuestionDetails() {
   const questionId = parseInt(params.id);
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
-
+  const isUserATeacher = useSelector(selectUser).isTeacher;
   const question: QuestionWithAuthorAndSolver = useSelector(selectQuestion);
 
   const userId = useSelector(selectUserId);
-  const isUserATeacher = useSelector(selectUser).isTeacher;
 
   const questionAuthorId = question.authorId;
 
@@ -93,7 +82,8 @@ function QuestionDetails() {
         dispatch(getQuestion(questionId));
       }
     });
-  });
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   const sendComment = (comment: Comment) => (e: any) => {
     if (e.key === 'Enter' || e.type === 'click') {
@@ -124,6 +114,10 @@ function QuestionDetails() {
     dispatch(updateComment(id, questionId, key, value));
   };
 
+  const sortedCommentsByUpvotes = sortByUpVotes(comments);
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
+  console.log('comments', comments);
+  console.log('sortedComments', sortedCommentsByUpvotes);
   return (
     <div className='QuestionDetails-page'>
       <div className='QuestionDetails'>
@@ -151,12 +145,6 @@ function QuestionDetails() {
             <div className='upvote-box'>
               <UpVotes upVotes={question.upVotes} messageId={question.id} />{' '}
               <ScreenshotModal screenshotURL={question.screenshotURL} />
-              {/* {userId === question.authorId || isUserATeacher ? (
-               
-                />
-              ) : (
-                ''
-              )} */}
             </div>
             {editMode && (
               <EditMode
@@ -216,7 +204,7 @@ function QuestionDetails() {
           </InputGroup.Append>
         </InputGroup>
         <div className='comments'>
-          {comments.map((x: Comment, i: number) => {
+          {sortedCommentsByUpvotesAndIsSolution.map((x: Comment, i: number) => {
             return (
               <div key={i} className='comment'>
                 <div className={x.isSolution ? ' comment-top comment-top-green' : 'comment-top'}>
