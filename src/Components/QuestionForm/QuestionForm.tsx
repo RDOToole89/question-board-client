@@ -47,10 +47,11 @@ export default function QuestionForm(props: any) {
     e.preventDefault();
 
     const { title, body, questionBoardId, tags } = newQuestion;
+    // eslint-disable-next-line
     const answer = await dispatch(
       uploadNewQuestion(title, body, questionBoardId, previewSource, tags)
     );
-    console.log("answer", answer);
+
     props.onHide();
   };
 
