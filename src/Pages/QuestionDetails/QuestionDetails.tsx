@@ -22,6 +22,7 @@ import UpVotesComments from "../../Components/UpVotesComments/UpVotesComments";
 import ScreenshotModal from "../../Components/ScreenshotModal/ScreenshotModal";
 import EditMode from "./EditMode";
 import DeleteQuestionButton from "../../Components/DeleteQuestionButton/DeleteQuestionButton";
+import { sortByIsSolution, sortByUpVotes } from "../../globalFunctions";
 
 interface Params {
   id: string;
@@ -30,17 +31,6 @@ interface Params {
 interface Author {
   firstName: string;
   lastName: string;
-}
-
-interface Comment {
-  id: number;
-  questionId: number;
-  body: string;
-  authorId: number;
-  upVotes: number;
-  isSolution: boolean | null;
-  author: Author;
-  createdAt?: string | null | number | {};
 }
 
 function QuestionDetails() {
@@ -83,7 +73,6 @@ function QuestionDetails() {
   const socketRef: SocketRef = useRef();
 
   useEffect(() => {
-    console.log("useeffect question details");
     if (!token) {
       history.push("/");
     }
@@ -127,7 +116,12 @@ function QuestionDetails() {
       });
     }
   };
-
+  const sortedCommentsByUpvotes = sortByUpVotes(comments);
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
+    sortedCommentsByUpvotes
+  );
+  console.log("comments", comments);
+  console.log("sortedComments", sortedCommentsByUpvotes);
   return (
     <div className="QuestionDetails-page">
       <div className="QuestionDetails">
@@ -217,7 +211,7 @@ function QuestionDetails() {
           </InputGroup.Append>
         </InputGroup>
         <div className="comments">
-          {comments.map((x: Comment, i: number) => {
+          {sortedCommentsByUpvotesAndIsSolution.map((x: Comment, i: number) => {
             return (
               <div key={i} className="comment">
                 <div
