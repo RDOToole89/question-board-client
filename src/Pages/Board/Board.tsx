@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import QuestionCard from "../../Components/QuestionCard/QuestionCard";
-import QuestionForm from "../../Components/QuestionForm/QuestionForm";
-import { fetchSingleBoard } from "../../store/boards/actions";
-import {
-  selectQuestions,
-  selectSingleBoard,
-} from "../../store/boards/selectors";
-import "./Board.css";
-import io from "socket.io-client";
-import { apiUrl } from "../../config/constants";
-
+import React, { useState, useEffect, useRef } from 'react';
+import { Button, Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import QuestionCard from '../../Components/QuestionCard/QuestionCard';
+import QuestionForm from '../../Components/QuestionForm/QuestionForm';
+import { fetchSingleBoard } from '../../store/boards/actions';
+import { selectQuestions, selectSingleBoard } from '../../store/boards/selectors';
+import './Board.css';
+import io from 'socket.io-client';
+import { apiUrl } from '../../config/constants';
 
 function Board() {
   const params = useParams();
@@ -29,7 +25,7 @@ function Board() {
   useEffect(() => {
     dispatch(fetchSingleBoard(id));
     socketRef.current = io.connect(`${apiUrl}`);
-    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
+    socketRef.current.on('questionUpdated', (updatedQuestion: Question) => {
       if ((updatedQuestion.questionBoardId = id)) {
         dispatch(fetchSingleBoard(id));
       }
@@ -39,12 +35,12 @@ function Board() {
   return (
     <div className='QuestionBoard'>
       <div className='QuestionBoard-title-wrapper'>
-        <h1>{board.name}</h1>
+        <h1 className='header-medium'>{board.name}</h1>
         <p>{board.description}</p>
       </div>
       <Container>
-        <div className='FORM'>
-          <Button variant='primary' onClick={() => setModalShow(true)}>
+        <div className='form'>
+          <Button className='question-button' variant='primary' onClick={() => setModalShow(true)}>
             Post a new question
           </Button>
 

@@ -49,17 +49,23 @@ function QuestionCard(props: cardProps) {
   };
 
   return (
-    <Card className='mb-4 mr-4' style={{ width: '30rem' }}>
+    <Card className='question-card mb-4 mr-4' style={{ width: '30rem' }}>
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className='mb-2'>{`${author.firstName} ${author.lastName} (${author.classNo})`}</Card.Subtitle>
+        <Card.Title className='question-card-title'>{title}</Card.Title>
+        <Card.Subtitle className='question-card-name mb-2'>
+          {`${author.firstName} ${author.lastName}`}{' '}
+          <span className='card-span'>{`(${author.classNo})`}</span>
+        </Card.Subtitle>
 
         {
           // @ts-ignore
           !openMessages.includes(messageId) ? (
             <div>
-              <Card.Text className='mb-2'>{`${body.slice(0, 100)}...`}</Card.Text>
+              <Card.Text className='question-card-text mb-2'>{`${body.slice(
+                0,
+                100
+              )}...`}</Card.Text>
               <Badge
                 variant='light'
                 className='mt-0'
@@ -96,7 +102,7 @@ function QuestionCard(props: cardProps) {
             <i className='QuestionCard-icon text-danger las la-times-circle la-2x' />
           </div>
         )}
-        <Card.Text>{`${moment(createdAt).calendar()} - ${moment(createdAt)
+        <Card.Text className='timestamp'>{`${moment(createdAt).calendar()} - ${moment(createdAt)
           .startOf('hour')
           .fromNow()}  `}</Card.Text>
         <div className='upvote-box'>
