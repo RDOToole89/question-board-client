@@ -3,10 +3,52 @@
   height: 100vh;
   margin-left: auto;
   order: 100;
-  border: 2px solid gray;
+  border-left: 1px solid #d8d8d8;
 }
 .sidebar-button {
+  text-transform: uppercase;
+  font-weight: 800;
+  background: #0088fa;
   height: 4em;
   margin-left: auto;
   order: 100;
+  border-radius: 0;
+}
+
+.queue-card {
+  padding: 1.5em 0;
+  border-radius: 0;
+}
+
+.queue-card-title {
+  text-transform: uppercase;
+}
+.queue-card-text {
+  font-size: 0.9rem;
+  padding-bottom: 1em;
+}
+
+.queue-button {
+  font-size: 0.85rem;
+  margin-right: 1em;
+  border: none;
+  background: #0088fa;
+  color: #fff;
+}
+
+.queue-button-danger {
+  font-size: 0.85rem;
+  margin-right: 0.5em;
+  border: none;
+  background: #c1272d;
+  color: #fff;
+  transition: all 200ms ease-in;
+}
+
+.queue-button-danger:hover {
+  background: #0088fa;
+}
+
+.resolve-button {
+  border-radius: 50px;
 }

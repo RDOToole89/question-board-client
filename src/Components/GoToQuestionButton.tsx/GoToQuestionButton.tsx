@@ -1,6 +1,8 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
+
 
 interface ButtonProps {
   questionId: number;
@@ -15,8 +17,9 @@ export default function GoToQuestionButton(props: ButtonProps) {
   };
   return (
     <Button
+      className='queue-button'
       onClick={() => handleClickToQuestion(boardId, questionId)}
-      variant="primary"
+      variant='primary'
     >
       Go to question
     </Button>

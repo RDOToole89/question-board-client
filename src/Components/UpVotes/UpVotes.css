@@ -1,3 +1,10 @@
 .upvote-icon {
   cursor: pointer;
 }
+
+.UpVotes {
+  padding: 0.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

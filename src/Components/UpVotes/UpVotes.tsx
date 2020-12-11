@@ -18,7 +18,7 @@ function UpVotes(props: UpVoteProps) {
   };
 
   return (
-    <div className='UpVotes mb-3'>
+    <div className='UpVotes'>
       <i onClick={increment} className='upvote-icon las la-thumbs-up'>
         {upVotes}
       </i>
