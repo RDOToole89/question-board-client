@@ -114,14 +114,7 @@ function QuestionDetails() {
     dispatch(updateComment(id, questionId, key, value));
   };
 
-  // @ts-ignore
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
-  // @ts-ignore
-  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
-
-  // @ts-ignore
-  const sortedCommentsByUpvotes = sortByUpVotes(comments);
-  // @ts-ignore
   const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
 
   return (
