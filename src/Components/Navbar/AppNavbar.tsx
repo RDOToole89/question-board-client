@@ -17,6 +17,7 @@ export default function AppNavbar() {
       <Navbar className='Nav' bg='light' expand='lg'>
         <Navbar.Brand onClick={() => history.push('/')}>
           <img
+            alt='logo'
             style={{ width: '200px' }}
             src='https://d33wubrfki0l68.cloudfront.net/b812d66a8b265bece81f104ecc1396180c332522/cc883/assets/icons/logo.svg'
           />
