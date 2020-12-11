@@ -1,5 +1,6 @@
-import React from "react";
-import { Badge } from "react-bootstrap";
+import React from 'react';
+import { Badge } from 'react-bootstrap';
+import './TagBox.css';
 
 function TagBox(props: any) {
   const { tags } = props;
@@ -10,9 +11,9 @@ function TagBox(props: any) {
   }
 
   return (
-    <div className="tagbox mb-2">
+    <div className='tagbox mb-2'>
       {tags.map((x: Tag) => (
-        <Badge key={x.id} variant="success" className="m-1 tag">
+        <Badge key={x.id} variant='success' className='m-1 tag'>
           {x.tagname}
         </Badge>
       ))}
