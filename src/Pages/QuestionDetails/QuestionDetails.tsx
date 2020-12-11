@@ -175,8 +175,7 @@ function QuestionDetails() {
                 </Button>
               </div>
             ) : (
-              questionAuthorId === userId ||
-              (isUserATeacher && (
+              (questionAuthorId === userId || isUserATeacher) && (
                 <div className='details-button-wrapper'>
                   <Button
                     variant='secondary'
@@ -190,7 +189,7 @@ function QuestionDetails() {
                     questionBoardId={question.questionBoardId}
                   />
                 </div>
-              ))
+              )
             )}
           </div>
         </div>
