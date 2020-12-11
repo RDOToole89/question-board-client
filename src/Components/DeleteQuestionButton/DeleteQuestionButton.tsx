@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import io from "socket.io-client";
 import { apiUrl } from "../../config/constants";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { selectQueue } from "../../store/questions/selectors";
 import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
@@ -8,12 +8,11 @@ import { toggleSidebar } from "../../store/appState/actions";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import UpVotes from "../UpVotes/UpVotes";
 import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
-import { getQueue, updateQuestion } from "../../store/questions/actions";
+import { getQueue } from "../../store/questions/actions";
 import { selectUser, selectUserId } from "../../store/user/selectors";
 import { sortQuestionArrayById } from "../../globalFunctions";
 import io from "socket.io-client";
 import { apiUrl } from "../../config/constants";
-import { fetchSingleBoard } from "../../store/boards/actions";
 
 interface propsButton {
   text: string;
@@ -36,7 +35,7 @@ interface PropsQuestion {
 function PendingQuestion({ question }: PropsQuestion) {
   const { id, title, author, upVotes, solver } = question;
   const { firstName, lastName, classNo } = author;
-  const [socketId, setSocketId] = useState(0);
+
   type SocketRef = { current: any };
   const socketRef: SocketRef = useRef();
 
@@ -55,13 +54,8 @@ function PendingQuestion({ question }: PropsQuestion) {
   useEffect(() => {
     socketRef.current = io.connect(`${apiUrl}`);
 
-    socketRef.current.on("socketId", (id: number) => {
-      setSocketId(id);
-    });
-
     socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
       dispatch(getQueue());
-      // dispatch(fetchSingleBoard(updatedQuestion.questionBoardId));
     });
   }, [dispatch]);
 
@@ -69,7 +63,7 @@ function PendingQuestion({ question }: PropsQuestion) {
     <Card>
       <Card.Body>
         <Card.Title>{`${firstName} ${lastName} (${classNo})`}</Card.Title>
-        {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
+
         <Card.Text>{title}</Card.Text>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <GoToQuestionButton
