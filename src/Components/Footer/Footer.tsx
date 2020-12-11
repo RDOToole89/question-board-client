@@ -26,9 +26,11 @@ function Footer() {
       <div className="info-boxes">
         <div>
           <img
-            style={{ width: "240px", objectFit: "contain" }}
-            src="https://d33wubrfki0l68.cloudfront.net/f276c3a3531930673f6ca69a91ffb523116c1157/c8db5/assets/icons/logo-squared.svg"
-            alt="logo"
+
+            alt='codaisseur'
+            style={{ width: '240px', objectFit: 'contain' }}
+            src='https://d33wubrfki0l68.cloudfront.net/f276c3a3531930673f6ca69a91ffb523116c1157/c8db5/assets/icons/logo-squared.svg'
+
           />
         </div>
         <div className="info-box">

@@ -180,8 +180,10 @@ function QuestionDetails() {
                 </Button>
               </div>
             ) : (
-              questionAuthorId === userId && (
-                <div className="details-button-wrapper">
+
+              (questionAuthorId === userId || isUserATeacher) && (
+                <div className='details-button-wrapper'>
+
                   <Button
                     variant="secondary"
                     className="details-button mr-3"
