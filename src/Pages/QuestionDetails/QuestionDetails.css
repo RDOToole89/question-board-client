@@ -99,3 +99,15 @@
 .details-button {
   text-transform: uppercase;
 }
+
+.solution-button {
+  font-size: 0.8rem;
+  border: none;
+  background: #5cb85c;
+  text-transform: uppercase;
+}
+
+.solution-span {
+  padding-left: 1em;
+  font-size: 0.8rem;
+}
