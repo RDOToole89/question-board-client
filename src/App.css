@@ -29,6 +29,10 @@ a:hover {
   cursor: pointer;
 }
 
+p {
+  line-height: 1.6;
+}
+
 .timestamp {
   font-size: 0.75rem;
 }
