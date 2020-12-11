@@ -59,9 +59,9 @@ function QuestionDetails() {
 
   const questionAuthorId = question.authorId;
 
-  const [screenshotActive, setScreenshotActive] = useState(false);
+  
   const [editMode, setEditMode] = useState(false);
-  const [socketId, setSocketId] = useState(0);
+
   const [editQuestion, setEditQuestion] = useState({
     id: question.id,
     title: question.title,
@@ -93,13 +93,7 @@ function QuestionDetails() {
 
     socketRef.current = io.connect(`${apiUrl}`);
 
-    socketRef.current.on("socketId", (id: number) => {
-      setSocketId(id);
-    });
-
     socketRef.current.on("comment", (commentBody: Comment) => {
-      // console.log(commentBody);
-
       dispatch(saveQuestion(commentBody));
     });
     socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
@@ -107,7 +101,7 @@ function QuestionDetails() {
         dispatch(getQuestion(questionId));
       }
     });
-  }, [dispatch]);
+  });
 
   const sendComment = (comment: Comment) => (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -132,10 +126,6 @@ function QuestionDetails() {
         createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
       });
     }
-  };
-
-  const openScreenshot = () => {
-    setScreenshotActive(!screenshotActive);
   };
 
   return (
