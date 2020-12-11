@@ -21,10 +21,10 @@ interface Params {
   id: string;
 }
 
-interface Author {
-  firstName: string;
-  lastName: string;
-}
+// interface Author {
+//   firstName: string;
+//   lastName: string;
+// }
 
 function QuestionDetails() {
   const history = useHistory();
