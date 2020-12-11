@@ -1,19 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { selectQueue } from '../../store/questions/selectors';
-import { useSelector, useDispatch } from 'react-redux';
-import './style.css';
-import { selectShowSidebar } from '../../store/appState/selectors';
-import { Button, Card } from 'react-bootstrap';
-import { toggleSidebar } from '../../store/appState/actions';
-import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
-import UpVotes from '../UpVotes/UpVotes';
-import GoToQuestionButton from '../GoToQuestionButton.tsx/GoToQuestionButton';
-import { getQueue, updateQuestion } from '../../store/questions/actions';
-import { selectUser, selectUserId } from '../../store/user/selectors';
-import { sortQuestionArrayById } from '../../globalFunctions';
-import io from 'socket.io-client';
-import { apiUrl } from '../../config/constants';
-import { fetchSingleBoard } from '../../store/boards/actions';
+import React, { useEffect, useRef } from "react";
+import { selectQueue } from "../../store/questions/selectors";
+import { useSelector, useDispatch } from "react-redux";
+import "./style.css";
+import { selectShowSidebar } from "../../store/appState/selectors";
+import { Button, Card } from "react-bootstrap";
+import { toggleSidebar } from "../../store/appState/actions";
+import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import UpVotes from "../UpVotes/UpVotes";
+import GoToQuestionButton from "../GoToQuestionButton.tsx/GoToQuestionButton";
+import { getQueue } from "../../store/questions/actions";
+import { selectUser, selectUserId } from "../../store/user/selectors";
+import { sortQuestionArrayById } from "../../globalFunctions";
+import io from "socket.io-client";
+import { apiUrl } from "../../config/constants";
 
 interface propsButton {
   text: string;
@@ -33,7 +32,7 @@ interface PropsQuestion {
 function PendingQuestion({ question }: PropsQuestion) {
   const { id, title, author, upVotes, solver } = question;
   const { firstName, lastName, classNo } = author;
-  const [socketId, setSocketId] = useState(0);
+
   type SocketRef = { current: any };
   const socketRef: SocketRef = useRef();
 
@@ -52,13 +51,9 @@ function PendingQuestion({ question }: PropsQuestion) {
   useEffect(() => {
     socketRef.current = io.connect(`${apiUrl}`);
 
-    socketRef.current.on('socketId', (id: number) => {
-      setSocketId(id);
-    });
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
 
-    socketRef.current.on('questionUpdated', (updatedQuestion: Question) => {
       dispatch(getQueue());
-      // dispatch(fetchSingleBoard(updatedQuestion.questionBoardId));
     });
   }, [dispatch]);
 
@@ -70,6 +65,7 @@ function PendingQuestion({ question }: PropsQuestion) {
         <Card.Text className='queue-card-text'>{title}</Card.Text>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <GoToQuestionButton questionId={question.id} boardId={question.questionBoardId} />
+
           {solver ? (
             <Button
               className='queue-button'
