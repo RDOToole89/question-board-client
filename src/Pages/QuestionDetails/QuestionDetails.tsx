@@ -1,20 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
-import TagBox from '../../Components/TagBox/TagBox';
-import UpVotes from '../../Components/UpVotes/UpVotes';
-import { getQuestion, saveQuestion, updateComment } from '../../store/questions/actions';
-import { selectQuestion, selectSortedComments } from '../../store/questions/selectors';
-import moment from 'moment';
-import './QuestionDetails.css';
-import io from 'socket.io-client';
-import { apiUrl } from '../../config/constants';
-import { Button, FormControl, InputGroup } from 'react-bootstrap';
-import { selectToken, selectUser, selectUserId } from '../../store/user/selectors';
-import UpVotesComments from '../../Components/UpVotesComments/UpVotesComments';
-import ScreenshotModal from '../../Components/ScreenshotModal/ScreenshotModal';
-import EditMode from './EditMode';
-import DeleteQuestionButton from '../../Components/DeleteQuestionButton/DeleteQuestionButton';
+
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import TagBox from "../../Components/TagBox/TagBox";
+import UpVotes from "../../Components/UpVotes/UpVotes";
+import { getQuestion, saveQuestion } from "../../store/questions/actions";
+import {
+  selectQuestion,
+  selectSortedComments,
+} from "../../store/questions/selectors";
+import moment from "moment";
+import "./QuestionDetails.css";
+import io from "socket.io-client";
+import { apiUrl } from "../../config/constants";
+import { Button, FormControl, InputGroup } from "react-bootstrap";
+import {
+  selectToken,
+  selectUser,
+  selectUserId,
+} from "../../store/user/selectors";
+import UpVotesComments from "../../Components/UpVotesComments/UpVotesComments";
+import ScreenshotModal from "../../Components/ScreenshotModal/ScreenshotModal";
+import EditMode from "./EditMode";
+import DeleteQuestionButton from "../../Components/DeleteQuestionButton/DeleteQuestionButton";
+import { sortByIsSolution, sortByUpVotes } from "../../globalFunctions";
 
 interface Params {
   id: string;
@@ -25,17 +34,6 @@ interface Author {
   lastName: string;
 }
 
-interface Comment {
-  id: number;
-  questionId: number;
-  body: string;
-  authorId: number;
-  upVotes: number;
-  isSolution: boolean | null;
-  author: Author;
-  createdAt?: string | null | number | {};
-}
-
 function QuestionDetails() {
   const history = useHistory();
   const token = useSelector(selectToken);
@@ -44,11 +42,10 @@ function QuestionDetails() {
   const questionId = parseInt(params.id);
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
-
+  const isUserATeacher = useSelector(selectUser).isTeacher;
   const question: QuestionWithAuthorAndSolver = useSelector(selectQuestion);
 
   const userId = useSelector(selectUserId);
-  const isUserATeacher = useSelector(selectUser).isTeacher;
 
   const questionAuthorId = question.authorId;
 
@@ -63,12 +60,12 @@ function QuestionDetails() {
   // @ts-ignore
   const [comment, setComment] = useState<Comment>({
     questionId: 0,
-    body: '',
+    body: "",
     authorId: user.id,
     upVotes: 0,
     isSolution: null,
-    author: { firstName: '', lastName: '' },
-    createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
+    author: { firstName: "", lastName: "" },
+    createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
   });
 
   const { tags, resolved, createdAt } = question;
@@ -78,85 +75,87 @@ function QuestionDetails() {
 
   useEffect(() => {
     if (!token) {
-      history.push('/');
+      history.push("/");
     }
 
     dispatch(getQuestion(questionId));
 
     socketRef.current = io.connect(`${apiUrl}`);
 
-    socketRef.current.on('comment', (commentBody: Comment) => {
+    socketRef.current.on("comment", (commentBody: Comment) => {
       dispatch(saveQuestion(commentBody));
     });
-    socketRef.current.on('questionUpdated', (updatedQuestion: Question) => {
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
       if ((updatedQuestion.id = questionId)) {
         dispatch(getQuestion(questionId));
       }
     });
-  });
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   const sendComment = (comment: Comment) => (e: any) => {
-    if (e.key === 'Enter' || e.type === 'click') {
+    if (e.key === "Enter" || e.type === "click") {
       // @ts-ignore
-      socketRef.current.emit('comment', {
+      socketRef.current.emit("comment", {
         questionId: questionId,
         body: comment.body,
         authorId: user.id,
         upVotes: comment.upVotes,
         isSolution: null,
         author: { firstName: user.firstName, lastName: user.lastName },
-        createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
+        createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
       });
       // @ts-ignore
       setComment({
         questionId: questionId,
-        body: '',
+        body: "",
         authorId: user.id,
         upVotes: 0,
         isSolution: null,
-        author: { firstName: '', lastName: '' },
-        createdAt: moment(new Date()).format('YYYY-MM-DD, h:mm:ss a'),
+        author: { firstName: "", lastName: "" },
+        createdAt: moment(new Date()).format("YYYY-MM-DD, h:mm:ss a"),
       });
     }
   };
+
 
   const handleSolution = (id: number, questionId: number, key: string, value: boolean) => {
     dispatch(updateComment(id, questionId, key, value));
   };
 
+
+  const sortedCommentsByUpvotes = sortByUpVotes(comments);
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
+    sortedCommentsByUpvotes
+  );
+
   return (
-    <div className='QuestionDetails-page'>
-      <div className='QuestionDetails'>
-        <div className='question-wrapper'>
-          <div className='question-content'>
+    <div className="QuestionDetails-page">
+      <div className="QuestionDetails">
+        <div className="question-wrapper">
+          <div className="question-content">
             <h2>{question.title}</h2>
             <h4>{`${question.author.firstName} ${question.author.lastName} (${question.author.classNo})`}</h4>
-            <p className='question-body'>{question.body}</p>
+            <p className="question-body">{question.body}</p>
             <p>{`${moment(createdAt).calendar()} - ${moment(createdAt)
-              .startOf('hour')
+              .startOf("hour")
               .fromNow()}  `}</p>
             <TagBox tags={tags} />
             {resolved ? (
-              <div className='QuestionCard-pending'>
+              <div className="QuestionCard-pending">
                 Status: resolved
-                <i className='QuestionCard-icon text-success las la-check-circle la-2x' />
+                <i className="QuestionCard-icon text-success las la-check-circle la-2x" />
               </div>
             ) : (
-              <div className='QuestionCard-pending'>
+              <div className="QuestionCard-pending">
                 Status: pending
-                <i className='QuestionCard-icon text-danger las la-times-circle la-2x' />
+                <i className="QuestionCard-icon text-danger las la-times-circle la-2x" />
               </div>
             )}
 
-            <div className='upvote-box'>
-              <UpVotes upVotes={question.upVotes} messageId={question.id} />{' '}
+            <div className="upvote-box">
+              <UpVotes upVotes={question.upVotes} messageId={question.id} />{" "}
               <ScreenshotModal screenshotURL={question.screenshotURL} />
-              {/* {userId === question.authorId || isUserATeacher ? (
-               
-                />
-              ) : (
-                ''
-              )} */}
             </div>
             {editMode && (
               <EditMode
@@ -168,22 +167,25 @@ function QuestionDetails() {
             {editMode ? (
               <div>
                 <Button
-                  variant='success'
-                  className='edit-button mr-4 mt-3'
+                  variant="success"
+                  className="edit-button mr-4 mt-3"
                   // onClick={() => handleSaveProfile()}
                 >
                   Save
                 </Button>
-                <Button className='edit-button mt-3' onClick={() => setEditMode(!editMode)}>
+                <Button
+                  className="edit-button mt-3"
+                  onClick={() => setEditMode(!editMode)}
+                >
                   Cancel
                 </Button>
               </div>
             ) : (
               (questionAuthorId === userId || isUserATeacher) && (
-                <div className='details-button-wrapper'>
+                <div className="details-button-wrapper">
                   <Button
-                    variant='secondary'
-                    className='details-button mr-3'
+                    variant="secondary"
+                    className="details-button mr-3"
                     onClick={() => setEditMode(!editMode)}
                   >
                     Edit Question
@@ -198,45 +200,57 @@ function QuestionDetails() {
           </div>
         </div>
       </div>
-      <div className='comment-section'>
-        <h3 className='comment-title'>Post a comment...</h3>
-        <InputGroup className='mb-5 mt-4'>
+      <div className="comment-section">
+        <h3 className="comment-title">Post a comment...</h3>
+        <InputGroup className="mb-5 mt-4">
           <FormControl
             onChange={(e) => setComment({ ...comment, body: e.target.value })}
             onKeyPress={sendComment(comment)}
-            placeholder='write a reply...'
+            placeholder="write a reply..."
             value={comment.body}
-            aria-label='add tag'
-            aria-describedby='basic-addon'
+            aria-label="add tag"
+            aria-describedby="basic-addon"
           />
           <InputGroup.Append>
-            <Button onClick={sendComment(comment)} variant='outline-secondary'>
-              <i className='las la-check'></i>
+            <Button onClick={sendComment(comment)} variant="outline-secondary">
+              <i className="las la-check"></i>
             </Button>
           </InputGroup.Append>
         </InputGroup>
-        <div className='comments'>
-          {comments.map((x: Comment, i: number) => {
+        <div className="comments">
+          {sortedCommentsByUpvotesAndIsSolution.map((x: Comment, i: number) => {
             return (
-              <div key={i} className='comment'>
-                <div className={x.isSolution ? ' comment-top comment-top-green' : 'comment-top'}>
+              <div key={i} className="comment">
+                <div
+                  className={
+                    x.isSolution
+                      ? " comment-top comment-top-green"
+                      : "comment-top"
+                  }
+                >
                   {`${x.author.firstName} ${x.author.lastName}`}
                   {x.isSolution && (
-                    <span className='comment-top-span'>
-                      {' '}
-                      &nbsp;- accepted solution{' '}
-                      <i className='QuestionCard-icon text-success las la-check-circle la-2x' />
+                    <span className="comment-top-span">
+                      {" "}
+                      &nbsp;- accepted solution{" "}
+                      <i className="QuestionCard-icon text-success las la-check-circle la-2x" />
                     </span>
                   )}
                 </div>
-                <p className='timestamp'>{`${moment(createdAt).calendar()} - ${moment(createdAt)
-                  .startOf('hour')
+                <p className="timestamp">{`${moment(
+                  createdAt
+                ).calendar()} - ${moment(createdAt)
+                  .startOf("hour")
 
                   .fromNow()}  `}</p>
 
-                <p className='comment-text'>{x.body}</p>
-                <div className='upvote-box-comments'>
-                  <UpVotesComments questionId={questionId} upVotes={x.upVotes} commentId={x.id} />
+                <p className="comment-text">{x.body}</p>
+                <div className="upvote-box-comments">
+                  <UpVotesComments
+                    questionId={questionId}
+                    upVotes={x.upVotes}
+                    commentId={x.id}
+                  />
                 </div>
                 {!x.isSolution && (
                   <div>
