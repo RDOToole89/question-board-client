@@ -1,24 +1,15 @@
-import React from "react";
-import { Button, Nav, NavDropdown } from "react-bootstrap";
-import { logOut } from "../../store/user/actions";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { Button, Nav, NavDropdown } from 'react-bootstrap';
+import { logOut } from '../../store/user/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selectUser } from "../../store/user/selectors";
-import { useHistory } from "react-router-dom";
+import { selectUser } from '../../store/user/selectors';
+import { useHistory } from 'react-router-dom';
 
 export function LoggedInLinks() {
   const history = useHistory();
   return (
-    <Nav>
-      <Nav.Link onClick={() => history.push("/my-questions")}>
-        My questions
-      </Nav.Link>
-      <NavDropdown title={"Question boards"} id="basic-nav-dropdown">
-        {/* <NavDropdown.Item onClick={() => history.push("/explore-recipes")}>
-          {t_import_recipes}
-        </NavDropdown.Item> */}
-      </NavDropdown>
-    </Nav>
+    <Nav>{/* <NavDropdown title={'Question boards'} id='basic-nav-dropdown'></NavDropdown> */}</Nav>
   );
 }
 export function LogOutButton() {
@@ -27,16 +18,15 @@ export function LogOutButton() {
   const history = useHistory();
   const logOutClickHandler = () => {
     dispatch(logOut());
-    history.push("/");
+    history.push('/');
   };
 
   return (
     <Nav>
-      <div style={{ marginRight: "1em", alignSelf: "center" }}>
-        {" "}
-        {userEmail}
-      </div>
+      <div style={{ marginRight: '1em', alignSelf: 'center' }}> {userEmail}</div>
       <Button
+        variant='danger'
+        className='log-btn'
         onClick={() => {
           logOutClickHandler();
         }}
