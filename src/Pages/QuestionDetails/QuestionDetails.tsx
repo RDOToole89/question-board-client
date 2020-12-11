@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import TagBox from '../../Components/TagBox/TagBox';
 import UpVotes from '../../Components/UpVotes/UpVotes';
-import { getQuestion, saveQuestion } from '../../store/questions/actions';
+import { getQuestion, saveQuestion, updateComment } from '../../store/questions/actions';
 import { selectQuestion, selectSortedComments } from '../../store/questions/selectors';
 import moment from 'moment';
 import './QuestionDetails.css';
@@ -120,6 +120,10 @@ function QuestionDetails() {
     }
   };
 
+  const handleSolution = (id: number, questionId: number, key: string, value: boolean) => {
+    dispatch(updateComment(id, questionId, key, value));
+  };
+
   return (
     <div className='QuestionDetails-page'>
       <div className='QuestionDetails'>
@@ -234,6 +238,18 @@ function QuestionDetails() {
                 <div className='upvote-box-comments'>
                   <UpVotesComments questionId={questionId} upVotes={x.upVotes} commentId={x.id} />
                 </div>
+                {!x.isSolution && (
+                  <div>
+                    <Button
+                      onClick={() => handleSolution(x.id, questionId, 'isSolution', true)}
+                      className='solution-button'
+                    >
+                      Solution?
+                    </Button>{' '}
+                    <span className='solution-span'>Please mark if this solution worked.</span>
+                  </div>
+                )}
+
                 <hr></hr>
               </div>
             );
