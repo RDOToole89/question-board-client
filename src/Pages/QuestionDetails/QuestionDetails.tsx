@@ -114,10 +114,16 @@ function QuestionDetails() {
     dispatch(updateComment(id, questionId, key, value));
   };
 
+  // @ts-ignore
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
+  // @ts-ignore
   const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
-  console.log('comments', comments);
-  console.log('sortedComments', sortedCommentsByUpvotes);
+
+  // @ts-ignore
+  const sortedCommentsByUpvotes = sortByUpVotes(comments);
+  // @ts-ignore
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
+
   return (
     <div className='QuestionDetails-page'>
       <div className='QuestionDetails'>
