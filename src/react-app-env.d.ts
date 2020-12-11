@@ -37,6 +37,10 @@ interface QuestionWithAuthorAndSolver extends Question {
   author: User;
   solver: User;
 }
+interface Author {
+  firstName: string;
+  lastName: string;
+}
 interface Comment {
   id: number;
   questionId: number;
