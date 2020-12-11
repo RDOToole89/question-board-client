@@ -125,12 +125,10 @@ function QuestionDetails() {
     dispatch(updateComment(id, questionId, key, value));
   };
 
-  // @ts-ignore
+
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
-  // @ts-ignore
-  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
-    sortedCommentsByUpvotes
-  );
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
+
 
   return (
     <div className="QuestionDetails-page">
