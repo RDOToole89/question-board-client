@@ -1,6 +1,6 @@
 .Homepage {
   margin: 0 auto;
-  padding: 2em 2em 12em 2em;
+  padding: 2em 2em 14em 2em;
   flex-shrink: 20;
 }
 
@@ -10,6 +10,10 @@
   padding-left: 1.6em;
   font-weight: 700;
   width: 50%;
+}
+
+.header-medium {
+  font-weight: 700;
 }
 
 .Homepage-container {
@@ -27,8 +31,15 @@
   padding-left: 2em;
 }
 
-/* .questionBoard-create-wrapper {
-} */
+.questionBoard-create-wrapper {
+  padding: 3em;
+  border-radius: 20px;
+  background: #f8f9fa;
+  height: 60%;
+  -webkit-box-shadow: -7px 10px 12px -6px rgba(0, 0, 0, 0.33);
+  -moz-box-shadow: -7px 10px 12px -6px rgba(0, 0, 0, 0.33);
+  box-shadow: -7px 10px 12px -6px rgba(0, 0, 0, 0.33);
+}
 
 .card-blue {
   font-weight: bold;

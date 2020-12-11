@@ -79,7 +79,7 @@ export default function Homepage() {
                 rows={4}
               />
             </InputGroup>
-            <Button variant='danger' onClick={handleCreateBoard}>
+            <Button className='log-btn' variant='danger' onClick={handleCreateBoard}>
               Create Board
             </Button>
           </Form>
