@@ -1,3 +1,11 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "files.autoSave": "off",
+    "bracket-pair-colorizer-2.activeScopeCSS": [
+      "borderStyle : solid",
+      "borderWidth : 1px",
+      "borderColor : {color}",
+      "opacity: 0.5"
+    ],
+    "bracket-pair-colorizer-2.colors": ["#00BCD4", "#CDDC39", "#EC407A", "#9C27B0"],
+    "typescript.tsdk": "node_modules/typescript/lib",
 }
