@@ -47,6 +47,7 @@
   background: #0088fa;
   margin-left: 2em;
   transition: all 200ms ease-in;
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 0.125rem 0.25rem;
 }
 
 .card-red {
@@ -55,6 +56,8 @@
   background: #c1272d;
   margin-left: 2em;
   transition: all 200ms ease-in;
+  border: 1px solid rgb(214, 219, 224);
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 0.15rem 0.5rem;
 }
 
 .card-red:hover,
