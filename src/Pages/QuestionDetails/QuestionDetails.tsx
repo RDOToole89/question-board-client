@@ -51,7 +51,7 @@ function QuestionDetails() {
   const questionId = parseInt(params.id);
   const comments = useSelector(selectSortedComments);
   const dispatch = useDispatch();
-
+  const isUserATeacher = useSelector(selectUser).isTeacher;
   const question: QuestionWithAuthorAndSolver = useSelector(selectQuestion);
 
   const userId = useSelector(selectUserId);
@@ -180,10 +180,8 @@ function QuestionDetails() {
                 </Button>
               </div>
             ) : (
-
               (questionAuthorId === userId || isUserATeacher) && (
-                <div className='details-button-wrapper'>
-
+                <div className="details-button-wrapper">
                   <Button
                     variant="secondary"
                     className="details-button mr-3"
