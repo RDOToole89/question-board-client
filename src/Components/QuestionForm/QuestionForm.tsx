@@ -26,7 +26,7 @@ export default function QuestionForm(props: any) {
     questionBoardId,
     tags: [],
   });
-  const [fileInputState, setFileInputState] = useState<any>("");
+  const fileInputState = "";
   const [previewSource, setPreviewSource] = useState<any>();
   const [newTag, setNewTag] = useState<string>("");
   const handleFileUpload = (e: any) => {
