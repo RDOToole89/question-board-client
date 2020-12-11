@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -116,12 +117,18 @@ function QuestionDetails() {
       });
     }
   };
+
+
+  const handleSolution = (id: number, questionId: number, key: string, value: boolean) => {
+    dispatch(updateComment(id, questionId, key, value));
+  };
+
+
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
   const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
     sortedCommentsByUpvotes
   );
-  console.log("comments", comments);
-  console.log("sortedComments", sortedCommentsByUpvotes);
+
   return (
     <div className="QuestionDetails-page">
       <div className="QuestionDetails">
@@ -245,6 +252,18 @@ function QuestionDetails() {
                     commentId={x.id}
                   />
                 </div>
+                {!x.isSolution && (
+                  <div>
+                    <Button
+                      onClick={() => handleSolution(x.id, questionId, 'isSolution', true)}
+                      className='solution-button'
+                    >
+                      Solution?
+                    </Button>{' '}
+                    <span className='solution-span'>Please mark if this solution worked.</span>
+                  </div>
+                )}
+
                 <hr></hr>
               </div>
             );

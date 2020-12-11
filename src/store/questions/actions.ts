@@ -7,7 +7,6 @@ export const SET_QUEUE = 'SET_QUEUE';
 export const SAVE_QUESTION = 'SAVE_QUESTION';
 export const SAVE_COMMENT = 'SAVE_COMMENT';
 
-
 export const saveQuestion = (question: {}) => {
   return {
     type: SAVE_QUESTION,
@@ -31,10 +30,7 @@ export const getQueue = (): AppThunk => async (dispatch, getState) => {
   return serverResponse.data;
 };
 
-export const getQuestion = (questionId: number): AppThunk => async (
-  dispatch,
-  getState
-) => {
+export const getQuestion = (questionId: number): AppThunk => async (dispatch, getState) => {
   try {
     const response = await Axios.get(`${apiUrl}/questions/${questionId}`);
 
@@ -46,11 +42,30 @@ export const getQuestion = (questionId: number): AppThunk => async (
   }
 };
 
-export const updateQuestion = (
+export const updateComment = (
+  commentId: number,
   questionId: number,
   key: string,
   newValue: any
 ): AppThunk => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const serverResponse = await Axios.put(
+      `${apiUrl}/questions/${questionId}/comments/${commentId}/`,
+      {
+        key,
+        newValue,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log(serverResponse);
+    dispatch(getQuestion(questionId));
+  };
+};
+
+export const updateQuestion = (questionId: number, key: string, newValue: any): AppThunk => {
   return async (dispatch, getState) => {
     const token = selectToken(getState());
     const serverResponse = await Axios.put(
@@ -75,9 +90,7 @@ export const uploadNewQuestion = (
   base64EncodedImage: string,
   tags: string[]
 ): AppThunk => {
-
   return async (dispatch, getState) => {
-
     try {
       const token = selectToken(getState());
       const answer = await Axios.post(
