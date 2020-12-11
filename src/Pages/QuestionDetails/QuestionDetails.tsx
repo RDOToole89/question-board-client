@@ -89,7 +89,7 @@ function QuestionDetails() {
       }
     });
     // eslint-disable-next-line
-  }, [dispatch]);
+  }, [dispatch, questionId, comments]);
 
   const sendComment = (comment: Comment) => (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -125,10 +125,10 @@ function QuestionDetails() {
     dispatch(updateComment(id, questionId, key, value));
   };
 
-
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
-  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
-
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
+    sortedCommentsByUpvotes
+  );
 
   return (
     <div className="QuestionDetails-page">
