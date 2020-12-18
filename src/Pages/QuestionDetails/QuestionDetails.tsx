@@ -65,6 +65,7 @@ function QuestionDetails() {
       history.push('/');
     }
     dispatch(getQuestion(questionId));
+
     socketRef.current = io.connect(`${apiUrl}`);
 
     socketRef.current.on('comment', (commentBody: Comment) => {
@@ -72,6 +73,7 @@ function QuestionDetails() {
     });
     socketRef.current.on('questionUpdated', (updatedQuestion: Question) => {
       if ((updatedQuestion.id = questionId)) {
+        console.log("getting question with Id:", questionId);
         dispatch(getQuestion(questionId));
       }
     });
@@ -108,7 +110,11 @@ function QuestionDetails() {
   };
 
   const sortedCommentsByUpvotes = sortByUpVotes(comments);
-  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(sortedCommentsByUpvotes);
+
+  const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
+    sortedCommentsByUpvotes
+  );
+
 
   return (
     <div className='QuestionDetails-page'>
