@@ -75,9 +75,7 @@ function QuestionDetails() {
     if (!token) {
       history.push("/");
     }
-
     dispatch(getQuestion(questionId));
-
     socketRef.current = io.connect(`${apiUrl}`);
 
     socketRef.current.on("comment", (commentBody: Comment) => {
@@ -89,7 +87,7 @@ function QuestionDetails() {
       }
     });
     // eslint-disable-next-line
-  }, [dispatch, questionId, comments]);
+  }, [questionId]);
 
   const sendComment = (comment: Comment) => (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -129,7 +127,7 @@ function QuestionDetails() {
   const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
     sortedCommentsByUpvotes
   );
-
+  console.log("params", params);
   return (
     <div className="QuestionDetails-page">
       <div className="QuestionDetails">
