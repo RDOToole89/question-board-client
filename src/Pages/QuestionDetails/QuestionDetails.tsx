@@ -76,6 +76,7 @@ function QuestionDetails() {
       history.push("/");
     }
     dispatch(getQuestion(questionId));
+
     socketRef.current = io.connect(`${apiUrl}`);
 
     socketRef.current.on("comment", (commentBody: Comment) => {
@@ -127,7 +128,7 @@ function QuestionDetails() {
   const sortedCommentsByUpvotesAndIsSolution = sortByIsSolution(
     sortedCommentsByUpvotes
   );
-  console.log("params", params);
+
   return (
     <div className="QuestionDetails-page">
       <div className="QuestionDetails">
