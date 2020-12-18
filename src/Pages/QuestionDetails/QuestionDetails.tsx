@@ -71,8 +71,9 @@ function QuestionDetails() {
     socketRef.current.on('comment', (commentBody: Comment) => {
       dispatch(saveQuestion(commentBody));
     });
-    socketRef.current.on('questionUpdated', (updatedQuestion: Question) => {
-      if ((updatedQuestion.id = questionId)) {
+
+    socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
+      if (updatedQuestion.id === questionId) {
         console.log("getting question with Id:", questionId);
         dispatch(getQuestion(questionId));
       }
