@@ -83,7 +83,7 @@ function QuestionDetails() {
       dispatch(saveQuestion(commentBody));
     });
     socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
-      if ((updatedQuestion.id = questionId)) {
+      if (updatedQuestion.id === questionId) {
         console.log("getting question with Id:", questionId);
         dispatch(getQuestion(questionId));
       }
