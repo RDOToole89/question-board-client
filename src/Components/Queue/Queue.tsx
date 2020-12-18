@@ -21,7 +21,10 @@ interface propsButton {
 function ToggleSidebarButton({ text }: propsButton) {
   const dispatch = useDispatch();
   return (
-    <Button onClick={() => dispatch(toggleSidebar())} className='sidebar-button'>
+    <Button
+      onClick={() => dispatch(toggleSidebar())}
+      className="sidebar-button"
+    >
       {text}
     </Button>
   );
@@ -41,42 +44,44 @@ function PendingQuestion({ question }: PropsQuestion) {
   const dispatch = useDispatch();
   const handleResolvedClick = (questionId: number) => {
     //dispatch(updateQuestion(questionId, "resolved", true));
-    socketRef.current.emit('resolveQuestion', questionId);
+    socketRef.current.emit("resolveQuestion", questionId);
   };
   const helpClickHandler = (questionId: number, solverId: number | null) => {
     //dispatch(updateQuestion(questionId, "solverId", solverId));
-    socketRef.current.emit('updateSolverId', { questionId, solverId });
+    socketRef.current.emit("updateSolverId", { questionId, solverId });
   };
 
   useEffect(() => {
     socketRef.current = io.connect(`${apiUrl}`);
 
     socketRef.current.on("questionUpdated", (updatedQuestion: Question) => {
-
       dispatch(getQueue());
     });
   }, [dispatch]);
 
   return (
-    <Card className='queue-card'>
+    <Card className="queue-card">
       <Card.Body>
-        <Card.Title className='queue-card-title'>{`${firstName} ${lastName} (${classNo})`}</Card.Title>
+        <Card.Title className="queue-card-title">{`${firstName} ${lastName} (${classNo})`}</Card.Title>
         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
-        <Card.Text className='queue-card-text'>{title}</Card.Text>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <GoToQuestionButton questionId={question.id} boardId={question.questionBoardId} />
+        <Card.Text className="queue-card-text">{title}</Card.Text>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <GoToQuestionButton
+            questionId={question.id}
+            boardId={question.questionBoardId}
+          />
 
           {solver ? (
             <Button
-              className='queue-button'
+              className="queue-button"
               disabled={solver.id !== userId}
-              variant='warning'
+              variant="warning"
               onClick={() => helpClickHandler(id, null)}
             >{`${solver.firstName} to the rescue`}</Button>
           ) : (
             <Button
-              variant='danger'
-              className='queue-button-danger'
+              variant="danger"
+              className="queue-button-danger"
               onClick={() => helpClickHandler(id, userId)}
             >
               Help
@@ -86,9 +91,9 @@ function PendingQuestion({ question }: PropsQuestion) {
           <UpVotes upVotes={upVotes} messageId={id} />
 
           <Button
-            className='resolve-button'
+            className="resolve-button"
             disabled={!(userId === author.id || isUserATeacher)}
-            variant='success'
+            variant="success"
             onClick={() => handleResolvedClick(id)}
           >
             {<CheckCircleOutlineOutlinedIcon />}
@@ -102,15 +107,17 @@ function PendingQuestion({ question }: PropsQuestion) {
 export default function Queue() {
   const queue: QuestionWithAuthorAndSolver[] = useSelector(selectQueue);
   //@ts-ignore
-  const sortedQueue: QuestionWithAuthorAndSolver[] = sortQuestionArrayById(queue);
+  const sortedQueue: QuestionWithAuthorAndSolver[] = sortQuestionArrayById(
+    queue
+  );
   const showSidebar = useSelector(selectShowSidebar);
 
   if (!showSidebar) {
-    return <ToggleSidebarButton text={'< Show question queue'} />;
+    return <ToggleSidebarButton text={"< Show question queue"} />;
   }
   return (
-    <div className='sidebar'>
-      <ToggleSidebarButton text={'>'} />
+    <div className="sidebar">
+      <ToggleSidebarButton text={">"} />
       {sortedQueue.map((question) => (
         <PendingQuestion
           question={question}
