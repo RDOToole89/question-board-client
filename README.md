@@ -3,7 +3,7 @@
 ## Description
 Question Boards ( original name ey ;-) ) is an app I built together with another student during the Codaisseur Coding Academy.
 This tool was meant as a way to manage all the questions from students towards each other and the teachers. 
-The Main purpose of building it was to experiment with TypeScript, React and Websockets. Still some debugging to do here though :-p.
+The main purpose of building it was to experiment with TypeScript, React and Websockets. Still some debugging to do here though :-p.
 
 [Click here to have a look at the app](https://fervent-panini-a4ffe1.netlify.app/)
 
